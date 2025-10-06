@@ -1,25 +1,13 @@
-import Logo from "./assets/Logo.png";
-import addnewicon from "./assets/addnewicon.svg";
-import complainticon from "./assets/complainticon.svg";
-import completedicon from "./assets/completedicon.svg";
-import managecomplainticon from "./assets/managecomplainticon.svg";
-import pending from "./assets/pending.svg";
-import processingicon from "./assets/processingicon.svg";
-import mangetemicon from "./assets/mangetemicon.svg";
-import workingicon from "./assets/workingicon.svg";
-import auth from "./assets/auth.png";
-import login from "./assets/login.png";
-
 export const images = {
-  auth,
-  login,
-  Logo,
-  addnewicon,
-  complainticon,
-  completedicon,
-  managecomplainticon,
-  pending,
-  processingicon,
-  mangetemicon,
-  workingicon
+  auth: "/assets/auth.png",
+  login: "/assets/login.png",
+  Logo: "/assets/Logo.png",
+  addnewicon: "/assets/addnewicon.svg",
+  complainticon: "/assets/complainticon.svg",
+  completedicon: "/assets/completedicon.svg",
+  managecomplainticon: "/assets/managecomplainticon.svg",
+  pending: "/assets/pending.svg",
+  processingicon: "/assets/processingicon.svg",
+  mangetemicon: "/assets/mangetemicon.svg",
+  workingicon: "/assets/workingicon.svg"
 };
