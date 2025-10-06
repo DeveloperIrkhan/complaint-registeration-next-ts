@@ -6,7 +6,7 @@ import Image from "next/image";
 import CollapsibleButton from "./CollapsibleButton";
 import Link from "next/link";
 import { Eye, LucideEdit, Menu, Newspaper, PackagePlus, Pencil } from "lucide-react";
-import { images } from "../../../../public/Images";
+import { images } from "../../Images";
 import Icon from "./Icon";
 const SideBarComponent = () => {
   const [isOpen, setIsOpen] = useState<boolean>(true);

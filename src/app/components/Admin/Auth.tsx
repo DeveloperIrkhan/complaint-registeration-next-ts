@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import CustomButton from "../CustomButton";
 import SectionHeading from "../ui/SectionHeading";
 import Image from "next/image";
-import { images } from "../../../../public/Images";
+import { images } from "../../Images";
 
 const Auth = () => {
   const [firstName, setFirstName] = useState("");
