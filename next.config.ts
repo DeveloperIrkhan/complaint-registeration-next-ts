@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-      optimizeCss: false, // 🔥 disable LightningCSS
-
+  experimental: {
+    optimizeCss: false // ✅ must be inside 'experimental'
+  },
+  swcMinify: true // optional, improves performance
 };
 
 export default nextConfig;
