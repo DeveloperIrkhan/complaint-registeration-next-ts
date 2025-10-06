@@ -1,6 +1,6 @@
 import DashboardCard from "@/app/components/Admin/DashboardCard";
 import SectionHeading from "@/app/components/ui/SectionHeading";
-import { images } from "../../Images";
+import { images } from "@/app/Images";
 
 const Page = () => {
   return (
