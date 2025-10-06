@@ -2,7 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   experimental: {
-    optimizeCss: false // ✅ must be inside 'experimental'
+    optimizeCss: false,
+    useLightningcss:false
   },
   swcMinify: true // optional, improves performance
 };
