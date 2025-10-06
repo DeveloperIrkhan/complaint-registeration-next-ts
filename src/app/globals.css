@@ -155,4 +155,7 @@
   .bordered {
     @apply border border-black;
   }
+    .custom-input {
+    @apply border px-2 py-1.5 rounded-lg border-gray-400 w-full focus:outline-none focus:border-main-brand-color;
+  }
 }

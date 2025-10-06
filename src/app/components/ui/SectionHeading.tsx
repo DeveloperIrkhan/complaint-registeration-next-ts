@@ -18,7 +18,7 @@ const SectionHeading = ({
     <div className="text-center my-10">
       {/* Title with horizontal lines */}
       <div className="flex items-center group justify-center gap-4">
-        <div className={`h-[2px] w-16 ${lineColor || "bg-black"} `}></div>
+        <div className={`h-[2px] w-10 ${lineColor || "bg-black"} `}></div>
         <h2
           className={`${
             textColor || "text-black"
@@ -26,7 +26,7 @@ const SectionHeading = ({
         >
           {title}
         </h2>
-        <div className={`h-[2px] w-16 ${lineColor || "bg-black"} `}></div>
+        <div className={`h-[2px] w-10 ${lineColor || "bg-black"} `}></div>
       </div>
 
       {/* Subtitle */}
