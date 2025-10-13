@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import StoreProvider from "@/store/StoreProvider";
+import React from "react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,9 +17,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="flex w-full flex-col min-h-screen">
-          <main className="flex-1">{children}</main>
-        </div>
+        <StoreProvider>
+          <div className="flex w-full flex-col min-h-screen">
+            <main className="flex-1">{children}</main>
+          </div>
+        </StoreProvider>
       </body>
     </html>
   );

@@ -16,7 +16,7 @@ const Auth = () => {
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Left Section - Form */}
-      <div className="flex-1 flex items-center justify-center bg-white px-6 md:px-12">
+      <div className="flex-1 flex items-center justify-center bg-gradient-to-t to-sky-100 from-indigo-200 md:bg-white px-6 md:px-12">
         <div className="w-full max-w-sm">
           <SectionHeading
             title={`Admin ${currentState === "signup" ? "Signup" : "Login"}`}
@@ -37,7 +37,7 @@ const Auth = () => {
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     required
-                    className="w-full custom-input"
+                    className="w-full bg-white custom-input"
                   />
                   <input
                     id="lastName"
@@ -47,7 +47,7 @@ const Auth = () => {
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     required
-                    className="w-full custom-input"
+                    className="w-full custom-input  bg-white"
                   />
                 </div>
               )}
@@ -59,7 +59,7 @@ const Auth = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full custom-input"
+                className="w-full custom-input  bg-white"
               />
               <input
                 id="password"
@@ -69,7 +69,7 @@ const Auth = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full custom-input"
+                className="w-full custom-input  bg-white"
               />
               {currentState === "signup" && (
                 <input
@@ -80,27 +80,27 @@ const Auth = () => {
                   value={againPassword}
                   onChange={(e) => setAgainPassword(e.target.value)}
                   required
-                  className="w-full custom-input"
+                  className="w-full custom-input  bg-white"
                 />
               )}
             </div>
 
             <CustomButton
-             buttonColor="bg-primary-color"
-             buttonHoverColor="bg-main-brand-color"
+             buttonColor="bg-sky-500"
+             buttonHoverColor="bg-indigo-600"
               className="w-full text-white rounded-lg font-semibold transition"
               onClickFunction={() => console.log("hi")}
               buttonText={currentState === "signup" ? "Sign up" : "Login"}
             />
           </form>
           {/* button section */}
-          <div className="flex items-center my-6">
+          <div className="flex items-center my-2">
             <div className="flex-1 border-t border-gray-300"></div>
             <span className="mx-2 text-gray-500 text-sm">or</span>
             <div className="flex-1 border-t border-gray-300"></div>
           </div>
           {/* text section */}
-          <div className="w-full flex justify-between text-gray-600 mt-3">
+          <div className="w-full flex justify-between text-gray-600">
             {currentState === "Log in" && (
               <p className="text-sm pb-1 cursor-pointer transition-colors duration-200 hover:text-gray-300">
                 Forgot password?
@@ -127,15 +127,15 @@ const Auth = () => {
 
       <div
         className="hidden flex-1 
-      bg-gradient-to-tr from-indigo-500 to-sky-400 md:flex items-center justify-center p-6 relative"
+      bg-gradient-to-tl to-indigo-500 from-sky-300 md:flex items-center justify-center p-6 relative"
       >
-        <div className="z-10 text-center">
+        <div className="z-10 text-center h-full flex items-center">
           <Image
             src={currentState === "login" ? images.login : images.auth}
             alt="Auth illustrations"
             width={350}
             height={350}
-            className="mx-auto rounded-xl shadow-lg"
+            className="mx-auto h-9/12 shadow-2xl rounded-xl"
           />
         </div>
       </div>

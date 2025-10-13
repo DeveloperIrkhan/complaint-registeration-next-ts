@@ -9,5 +9,9 @@ export const images = {
   pending: "/assets/pending.svg",
   processingicon: "/assets/processingicon.svg",
   mangetemicon: "/assets/mangetemicon.svg",
-  workingicon: "/assets/workingicon.svg"
+  workingicon: "/assets/workingicon.svg",
+  customerPng: "/assets/customerCarePNG.jpg",
+  registeringComplaint: "/assets/complaintregisterpng.png",
+  trackingComplaint: "/assets/TrackingComplaint.png",
+  Spinner: "/assets/Spinner.svg"
 };

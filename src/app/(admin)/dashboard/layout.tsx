@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import "@/app/globals.css"
+import "@/app/globals.css";
 import { ToastContainer } from "react-toastify";
 import React from "react";
 import Image from "next/image";
 import { User } from "lucide-react";
-import SideBarComponent from "@/app/components/Admin/SideBarComponent";
-import Container from "@/app/components/ui/Container";
-import PageTitle from "@/app/components/ui/PageTitle";
+import SideBarComponent from "@/components/Admin/SideBarComponent";
+import Container from "@/components/ui/Container";
+import PageTitle from "@/components/ui/PageTitle";
+import { images } from "@/app/Images";
 
 export const metadata: Metadata = {
   title: "Admin Panel | Ticket Management System",
@@ -26,18 +27,24 @@ export default function RootLayout({
       <ToastContainer autoClose={10} position="top-center" />
       <SideBarComponent />
       <div className="flex-1 flex flex-col">
-        <header className="flex justify-between items-center py-3 px-4 shadow-md md:ml-0 ml-7">
-          <div className="">
-            <Image src={"/Logo.jpg"} height={50} className="p-2 md:hidden flex" width={50} alt="Image" />
+        <header className="flex justify-between items-center py-1 px-4 shadow-md md:ml-0 ml-7">
+          <div className="ml-3">
+            <Image
+              src={images.Logo}
+              height={75}
+              className="p-2"
+              width={75}
+              alt="logo"
+            />
           </div>
           <div className="">
-            <PageTitle className="text-center uppercase border-b border-main-brand-color text-main-brand-color tracking-wider text-shadow-2xs text-shadow-main-brand-color">
+            <PageTitle className="text-center uppercase border-b md:block hidden text-main-brand-color tracking-wider text-shadow-2xs text-shadow-main-brand-color">
               Admin Section
             </PageTitle>
           </div>
           <div className="flex gap-2">
             <button className="custom-button bg-white border border-main-brand-color text-main-brand-color hover:text-white hover:bg-main-brand-color hover:border-white hover:shadow-xl hover:translate-y-0.5 flex gap-3">
-             <User/> Logout
+              <User /> Logout
             </button>
           </div>
         </header>

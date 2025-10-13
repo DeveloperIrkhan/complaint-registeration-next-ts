@@ -54,13 +54,13 @@ const DashboardCard = ({
 
         {/* Right Side - Text Content */}
         <div className="flex flex-col text-center gap-2">
-          <motion.h2 className="text-xl md:text-2xl font-bold text-gray-700 group-hover:text-white">
+          <motion.h2 className="text-xl md:text-2xl font-bold group-hover:text-white">
             {displayNumber}
           </motion.h2>
-          <h2 className="md:text-xl font-medium text-gray-700 group-hover:text-white">
+          <h2 className="md:text-xl font-medium group-hover:text-white">
             {heading}
           </h2>
-          <p className="text-[15px] tracking-wide text-gray-700 group-hover:text-white">
+          <p className="text-[15px] tracking-wide group-hover:text-white">
             {text}
           </p>
         </div>

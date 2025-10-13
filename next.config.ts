@@ -5,7 +5,6 @@ const nextConfig: NextConfig = {
     optimizeCss: false,
     useLightningcss:false
   },
-  swcMinify: true // optional, improves performance
 };
 
 export default nextConfig;
