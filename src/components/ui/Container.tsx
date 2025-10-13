@@ -11,7 +11,7 @@ const Container = ({
   return (
     <div
       className={cn(
-        "px-3 md:px-10 mx-auto",
+        "px-3 mx-auto",
         className
       )}
     >

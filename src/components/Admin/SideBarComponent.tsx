@@ -44,7 +44,7 @@ const SideBarComponent = () => {
           <div className="m-0 p-0">
             <CollapsibleButton title="Manage Complaints">
               <Link
-                href="/products/add-product"
+                href="/manage-complaints"
                 className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-accent-color/20"
               >
                 <Icon iconName={images.complainticon} /> Show All Complaints
@@ -94,7 +94,7 @@ const SideBarComponent = () => {
       </div>
 
       {/* ==================== DESKTOP SIDEBAR ==================== */}
-      <div className="hidden md:block w-72 border md:border-l-2">
+      <div className="hidden md:block min-w-72 border md:border-l-2">
         <header className="bg-white border-b shadow-md flex justify-between items-center">
           <div className="flex items-center gap-3">
             <Image
@@ -116,7 +116,7 @@ const SideBarComponent = () => {
         <div className="">
           <CollapsibleButton title="Manage Complaints">
             <Link
-              href="/products/add-product"
+              href="/dashboard/manage-complaints"
               className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-accent-color/20"
             >
               <Icon iconName={images.complainticon} /> Show All Complaints

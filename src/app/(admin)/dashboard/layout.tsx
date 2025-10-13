@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen">
       <ToastContainer autoClose={10} position="top-center" />
       <SideBarComponent />
       <div className="flex-1 flex flex-col">
@@ -48,7 +48,7 @@ export default function RootLayout({
             </button>
           </div>
         </header>
-        <main className="flex-1 p-3">
+        <main className="p-3">
           <Container className="">{children}</Container>
         </main>
       </div>

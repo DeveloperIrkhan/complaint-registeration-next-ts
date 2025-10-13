@@ -11,7 +11,7 @@ export const GET = async (
   try {
     const { trackingId } = await context.params;
     const cleanId = trackingId.trim();
-
+    console.log(cleanId);
     const registeredComplaint = await Complaint.findById(cleanId);
     console.log(registeredComplaint);
     if (!registeredComplaint) {

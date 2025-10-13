@@ -13,5 +13,7 @@ export const images = {
   customerPng: "/assets/customerCarePNG.jpg",
   registeringComplaint: "/assets/complaintregisterpng.png",
   trackingComplaint: "/assets/TrackingComplaint.png",
-  Spinner: "/assets/Spinner.svg"
+  Spinner: "/assets/Spinner.svg",
+  ComplaintRegisteration: "/assets/ComplaintRegisteration.png",
+  customerCarePNG: "/assets/customerCarePNG.jpg",
 };
