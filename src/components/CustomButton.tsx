@@ -2,13 +2,14 @@ import { cn } from "@/lib/utils";
 import React from "react";
 
 interface IButtonProps {
-  onClickFunction: () => void;
+  onClickFunction?: () => void;
   buttonText: string;
   buttonColor?: string;
   buttonHoverColor?: string;
   icon?: React.ReactNode;
   disabled?: boolean;
   className?: string;
+  type?: "button" | "submit" | "reset";
 }
 const CustomButton = ({
   onClickFunction,
@@ -17,10 +18,12 @@ const CustomButton = ({
   icon,
   className,
   buttonHoverColor,
-  disabled
+  disabled,
+  type = "button"
 }: IButtonProps) => {
   return (
     <button
+      type={type}
       disabled={disabled}
       onClick={onClickFunction}
       className={cn(

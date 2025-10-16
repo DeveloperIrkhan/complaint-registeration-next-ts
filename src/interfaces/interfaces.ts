@@ -36,13 +36,31 @@ export interface IComplaint {
   completionTime?: string | null;
 }
 
-export interface IUser {
+export interface IUserModel {
   _id: Types.ObjectId;
   name: string;
   email: string;
   password: string;
   phone?: string;
   role: userRole;
+  forgotPasswordToken?: string;
+  forgotPasswordTokenExpiry?: string;
+  verifyToken?: string;
+  refreshToken?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+export interface IUser {
+  _id: string;
+  name: string;
+  email: string;
+  password: string;
+  phone?: string;
+  role: userRole;
+  forgotPasswordToken?: string;
+  forgotPasswordTokenExpiry?: string;
+  verifyToken?: string;
+  refreshToken?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -55,4 +73,3 @@ export interface ITask {
   notes?: string;
   completedAt?: Date;
 }
-

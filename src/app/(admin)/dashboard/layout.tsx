@@ -3,11 +3,11 @@ import "@/app/globals.css";
 import { ToastContainer } from "react-toastify";
 import React from "react";
 import Image from "next/image";
-import { User } from "lucide-react";
 import SideBarComponent from "@/components/Admin/SideBarComponent";
 import Container from "@/components/ui/Container";
 import PageTitle from "@/components/ui/PageTitle";
 import { images } from "@/app/Images";
+import UserLoginButton from "@/components/UserLoginButton";
 
 export const metadata: Metadata = {
   title: "Admin Panel | Ticket Management System",
@@ -43,9 +43,7 @@ export default function RootLayout({
             </PageTitle>
           </div>
           <div className="flex gap-2">
-            <button className="custom-button bg-white border border-main-brand-color text-main-brand-color hover:text-white hover:bg-main-brand-color hover:border-white hover:shadow-xl hover:translate-y-0.5 flex gap-3">
-              <User /> Logout
-            </button>
+            <UserLoginButton/>
           </div>
         </header>
         <main className="p-3">

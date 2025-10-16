@@ -1,12 +1,11 @@
-import { IComplaint } from "@/interfaces/interfaces";
+import { IComplaint, IUser } from "@/interfaces/interfaces";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface IComplainstResponse {
   complaints: IComplaint[];
 }
-
 export const createComplaintsAPI = createApi({
-  reducerPath: "",
+  reducerPath: "complaintsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "/api"
   }),
@@ -19,15 +18,17 @@ export const createComplaintsAPI = createApi({
       }),
       providesTags: ["complaints"]
     }),
-    registerComplaint: _builder.mutation({
-      query: ({ complaint }) => ({
-        url: "/complaints/register",
-        method: "POST",
-        body: { complaint }
-      }),
-      invalidatesTags: ["complaints"]
-    }),
-    getComplaintById: _builder.query({
+    registerComplaint: _builder.mutation<IComplaint, { complaint: IComplaint }>(
+      {
+        query: ({ complaint }) => ({
+          url: "/complaints/register",
+          method: "POST",
+          body: { complaint }
+        }),
+        invalidatesTags: ["complaints"]
+      }
+    ),
+    getComplaintById: _builder.query<IComplaint, { trackingId: string }>({
       query: (trackingId) => ({
         url: `/complaints/get-complaint/${trackingId}`,
         method: "GET"

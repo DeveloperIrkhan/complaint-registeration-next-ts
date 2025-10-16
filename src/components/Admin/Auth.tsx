@@ -1,21 +1,103 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomButton from "../CustomButton";
 import SectionHeading from "../ui/SectionHeading";
 import Image from "next/image";
 import { images } from "@/app/Images";
+import {
+  useLoginUserMutation,
+  useRegisterUserMutation
+} from "@/features/UserAPI";
+import Spinner from "../Spinner/Spinner";
+import { toast } from "react-toastify";
+import { setWithExpiry } from "@/helpers/storageHelper";
+import { IUser } from "@/interfaces/interfaces";
+import { useRouter } from "next/navigation";
 
 const Auth = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [againPassword, setAgainPassword] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
   const [currentState, setCurrentState] = useState("login");
+  const [againPassword, setAgainPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [passwordError, setPasswordError] = useState<string>("");
+  const [loginUser] = useLoginUserMutation();
+  const [signupUser] = useRegisterUserMutation();
+  const router = useRouter();
+  useEffect(() => {
+    if (currentState === "signup") {
+      if (password && againPassword && password !== againPassword) {
+        setPasswordError("Passwords do not match");
+      } else {
+        setPasswordError("");
+      }
+    }
+  }, [password, againPassword, currentState]);
 
+  const submitAsync = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      if (currentState === "signup" && password !== againPassword) {
+        setPasswordError("Passwords do not match");
+        return;
+      }
+
+      if (currentState === "login") {
+        const signInUser = { email, password };
+        var response = await loginUser(signInUser).unwrap();
+        console.log("response", response);
+        if (response?.success === true) {
+          toast.success(response?.message, { autoClose: 2000 });
+          setWithExpiry<IUser>({
+            key: "userLogin",
+            value: response?.loggedInUser,
+            timeInHours: 12
+          });
+
+          const redirectUrl =
+            response?.loggedInUser.role === "admin"
+              ? "/dashboard"
+              : "/user-dashboard";
+          setTimeout(() => {
+            router.push(redirectUrl);
+          }, 1500);
+        } else {
+          toast.error(response?.message, { autoClose: 2000 });
+        }
+      } else {
+        const newUser = { firstName, lastName, email, phoneNo, password };
+        var response = await signupUser(newUser).unwrap();
+        if (response?.success === true) {
+          toast.success(response?.message);
+        } else {
+          toast.error(response?.message);
+        }
+      }
+    } catch (error) {
+      console.log("errors", error);
+      const err = error as {
+        status?: number;
+        data?: { success?: boolean; message?: string };
+      };
+
+      if (err?.data?.message) {
+        toast.error(err.data.message, { autoClose: 2000 });
+      } else {
+        toast.error("Something went wrong. Please try again.", {
+          autoClose: 2000
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      {/* Left Section - Form */}
+      {loading && <Spinner />}
       <div className="flex-1 flex items-center justify-center bg-gradient-to-t to-sky-100 from-indigo-200 md:bg-white px-6 md:px-12">
         <div className="w-full max-w-sm">
           <SectionHeading
@@ -25,31 +107,43 @@ const Auth = () => {
             textColor="text-gary-500"
             subtitleColor="text-gray-900"
           />
-          <form className="flex flex-col gap-4">
+          <form onSubmit={submitAsync} className="flex flex-col gap-4">
             <div className="flex flex-col gap-y-4 justify-center items-center">
               {currentState === "signup" && (
-                <div className="flex gap-3 justify-around w-full">
+                <>
+                  <div className="flex gap-3 justify-around w-full">
+                    <input
+                      id="firstName"
+                      name="firstName"
+                      type="text"
+                      placeholder="Enter Your First Name"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      required
+                      className="w-full bg-white custom-input"
+                    />
+                    <input
+                      id="lastName"
+                      name="lastName"
+                      type="text"
+                      placeholder="Enter Your Last Name"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      required
+                      className="w-full custom-input  bg-white"
+                    />
+                  </div>
                   <input
-                    id="firstName"
-                    name="firstName"
+                    id="phoneNo"
+                    name="phoneNo"
                     type="text"
-                    placeholder="Enter Your First Name"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    required
-                    className="w-full bg-white custom-input"
-                  />
-                  <input
-                    id="lastName"
-                    name="lastName"
-                    type="text"
-                    placeholder="Enter Your Last Name"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    placeholder="Enter Your phoneNo Address"
+                    value={phoneNo}
+                    onChange={(e) => setPhoneNo(e.target.value)}
                     required
                     className="w-full custom-input  bg-white"
                   />
-                </div>
+                </>
               )}
               <input
                 id="email"
@@ -64,18 +158,19 @@ const Auth = () => {
               <input
                 id="password"
                 name="password"
-                type="text"
+                type="password"
                 placeholder="Enter Your Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 className="w-full custom-input  bg-white"
               />
+
               {currentState === "signup" && (
                 <input
                   id="againPassword"
                   name="againPassword"
-                  type="text"
+                  type="password"
                   placeholder="Enter Your Password Again"
                   value={againPassword}
                   onChange={(e) => setAgainPassword(e.target.value)}
@@ -83,13 +178,16 @@ const Auth = () => {
                   className="w-full custom-input  bg-white"
                 />
               )}
+              {passwordError && (
+                <p className="text-red-500 text-sm">{passwordError}</p>
+              )}
             </div>
 
             <CustomButton
-             buttonColor="bg-sky-500"
-             buttonHoverColor="bg-indigo-600"
+              type="submit"
+              buttonColor="bg-sky-500"
+              buttonHoverColor="bg-indigo-600"
               className="w-full text-white rounded-lg font-semibold transition"
-              onClickFunction={() => console.log("hi")}
               buttonText={currentState === "signup" ? "Sign up" : "Login"}
             />
           </form>

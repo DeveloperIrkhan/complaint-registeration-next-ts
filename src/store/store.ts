@@ -1,12 +1,16 @@
+import { userApi } from "@/features/UserAPI";
 import { createComplaintsAPI } from "./../features/apiCalls";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({
   reducer: {
-    [createComplaintsAPI.reducerPath]: createComplaintsAPI.reducer
+    [createComplaintsAPI.reducerPath]: createComplaintsAPI.reducer,
+    [userApi.reducerPath]: userApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(createComplaintsAPI.middleware)
+    getDefaultMiddleware()
+      .concat(createComplaintsAPI.middleware)
+      .concat(userApi.middleware)
 });
 
 export type RootStore = ReturnType<typeof store.getState>;

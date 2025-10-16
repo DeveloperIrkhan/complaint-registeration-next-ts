@@ -16,14 +16,17 @@ const UserSchema = new mongoose.Schema(
       required: [true, "password is required"],
       minlength: [8, "password must be at least 8 characters long"]
     },
-    phone:{
-        type:String,
-    }
-    , 
-    role:{
-        type:String,
-        enum:Object.values(userRole),
-        default:userRole.isTechnician
+    phone: {
+      type: String
+    },
+    forgotPasswordToken: { type: String },
+    forgotPasswordTokenExpiry: { type: Date },
+    verifyToken: { type: String },
+    refreshToken: { type: String },
+    role: {
+      type: String,
+      enum: Object.values(userRole),
+      default: userRole.isTechnician
     }
   },
   { timestamps: true }
