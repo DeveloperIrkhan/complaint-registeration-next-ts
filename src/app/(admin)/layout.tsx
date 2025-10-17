@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "@/app/globals.css";
 import { ToastContainer } from "react-toastify";
 import { images } from "../Images";
-import React from "react";
+import React, { Suspense } from "react";
 import ClientHydration from "@/components/ClientHydration";
+import Spinner from "@/components/Spinner/Spinner";
 export const metadata: Metadata = {
   title: "Admin Panel | Complaint Registeration System",
   description: "this is admin panel used for Complaint Registeration System",
@@ -20,9 +21,9 @@ export default function RootLayout({
   return (
     <div>
       <ToastContainer autoClose={10} position="top-center" />
-      <main className="">
-        <ClientHydration />
-        <div className="">{children}</div>
+      <ClientHydration />
+      <main>
+        <Suspense fallback={<Spinner />}>{children}</Suspense>
       </main>
     </div>
   );

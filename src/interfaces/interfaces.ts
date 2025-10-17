@@ -51,18 +51,12 @@ export interface IUserModel {
   updatedAt?: Date;
 }
 export interface IUser {
-  _id: string;
+  _id?: string;
   name: string;
   email: string;
   password: string;
   phone?: string;
-  role: userRole;
-  forgotPasswordToken?: string;
-  forgotPasswordTokenExpiry?: string;
-  verifyToken?: string;
-  refreshToken?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  role?: userRole;
 }
 
 export interface ITask {

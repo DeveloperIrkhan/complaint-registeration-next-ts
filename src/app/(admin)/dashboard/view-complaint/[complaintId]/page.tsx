@@ -17,16 +17,20 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
+import { useUserStore } from "@/features/UserStore";
+import Spinner from "@/components/Spinner/Spinner";
 
 const Page = () => {
   const params = useParams();
   const Id = params?.complaintId as string;
   const { complaints } = useComplaintStore();
+  const { users } = useUserStore();
   const [singleComplaint, setSingleComplaint] = useState<IComplaint | null>(
     null
   );
   const [status, setStatus] = useState<complaintStatus | "">("");
   const [priority, setPriority] = useState<complaintPriority | "">("");
+  const [assignTo, setAssignTo] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -39,6 +43,10 @@ const Page = () => {
       }
     }
   }, [complaints, Id]);
+
+  useEffect(() => {
+    console.log("users from store updated:", users);
+  }, [users]);
 
   const handleUpdate = async () => {
     if (!singleComplaint) return;
@@ -73,6 +81,7 @@ const Page = () => {
   const time = new Date(singleComplaint.registrationTime).toTimeString();
   return (
     <div className="max-w-3xl mx-auto mt-10">
+      {loading && <Spinner />}
       <Card className="shadow-md border border-gray-200 rounded-2xl">
         <CardHeader>
           <CardTitle className="text-xl font-semibold text-gray-800">
@@ -131,6 +140,7 @@ const Page = () => {
                 <Label>Status</Label>
                 <Select
                   value={status}
+                  disabled
                   onValueChange={(value: complaintStatus) => setStatus(value)}
                 >
                   <SelectTrigger className="w-full bg-white mt-1">
@@ -167,23 +177,22 @@ const Page = () => {
                 </Select>
               </div>
 
-
-
-               <div>
+              <div>
                 <Label>Task Assign To</Label>
                 <Select
-                  value={priority}
-                  onValueChange={(value: complaintPriority) =>
-                    setPriority(value)
-                  }
+                  value={assignTo}
+                  onValueChange={(value) => setAssignTo(value)}
                 >
                   <SelectTrigger className="w-full bg-white border mt-1">
-                    <SelectValue placeholder="Select priority" />
+                    <SelectValue placeholder="Select team member" />
                   </SelectTrigger>
                   <SelectContent>
-                    {Object.values(complaintPriority).map((priorityOption) => (
-                      <SelectItem key={priorityOption} value={priorityOption}>
-                        {priorityOption}
+                    {users.map((item) => (
+                      <SelectItem
+                        key={item._id ?? item.name}
+                        value={item._id ?? ""}
+                      >
+                        {item.name}
                       </SelectItem>
                     ))}
                   </SelectContent>

@@ -69,7 +69,8 @@ const Auth = () => {
           toast.error(response?.message, { autoClose: 2000 });
         }
       } else {
-        const newUser = { firstName, lastName, email, phoneNo, password };
+        const name = `${firstName}+${lastName}`;
+        const newUser = { name, email, phoneNo, password };
         var response = await signupUser(newUser).unwrap();
         if (response?.success === true) {
           toast.success(response?.message);

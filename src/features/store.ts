@@ -1,4 +1,4 @@
-import { IComplaint } from "@/interfaces/interfaces";
+import { IComplaint, IUser } from "@/interfaces/interfaces";
 import { create } from "zustand";
 
 export interface IComplaintStore {

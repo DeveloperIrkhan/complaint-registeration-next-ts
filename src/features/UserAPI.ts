@@ -1,16 +1,15 @@
+import { IUser } from "@/interfaces/interfaces";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface ILoginUser {
   email: string;
   password: string;
 }
-export interface IUser {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  phoneNo?: string;
+
+interface IUsers {
+  users: IUser[];
 }
+
 export const userApi = createApi({
   reducerPath: "User",
   baseQuery: fetchBaseQuery({
@@ -39,8 +38,19 @@ export const userApi = createApi({
         body: JSON.stringify(credentials)
       }),
       invalidatesTags: ["user"]
+    }),
+    getAllUser: _builder.query<IUsers, void>({
+      query: () => ({
+        url: "/complaints/auth/get-all-users",
+        method: "GET"
+      }),
+      providesTags: ["user"]
     })
   })
 });
 
-export const { useRegisterUserMutation, useLoginUserMutation } = userApi;
+export const {
+  useRegisterUserMutation,
+  useLoginUserMutation,
+  useGetAllUserQuery
+} = userApi;
