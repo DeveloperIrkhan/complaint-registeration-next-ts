@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { useUserStore } from "@/features/UserStore";
 import Spinner from "@/components/Spinner/Spinner";
+import { useUpdateComplaintMutation } from "@/features/apiCalls";
 
 const Page = () => {
   const params = useParams();
@@ -30,43 +31,52 @@ const Page = () => {
   );
   const [status, setStatus] = useState<complaintStatus | "">("");
   const [priority, setPriority] = useState<complaintPriority | "">("");
-  const [assignTo, setAssignTo] = useState<string>("");
-  const [loading, setLoading] = useState(false);
-
+  const [assignedTo, setAssignedTo] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [complaintId, setCompalintId] = useState("");
+  const [updateComplaint] = useUpdateComplaintMutation();
   useEffect(() => {
     if (complaints.length > 0 && Id) {
       const found = complaints.find((item) => item._id === Id);
       if (found) {
+        setCompalintId(found._id);
         setSingleComplaint(found);
         setStatus(found.complaintStatus ?? "");
         setPriority(found.priority ?? "");
+        setAssignedTo(found.assignedTo ?? "");
       }
     }
   }, [complaints, Id]);
 
   useEffect(() => {
-    console.log("users from store updated:", users);
+    // console.log("users from store updated:", users);
   }, [users]);
 
   const handleUpdate = async () => {
     if (!singleComplaint) return;
-    setLoading(true);
+    setIsLoading(true);
 
     try {
-      // Example PUT API request
-      const res = await fetch(`/api/complaints/${singleComplaint._id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status, priority })
-      });
+      console.log("sending data", complaintId, priority, assignedTo);
+      var response = await updateComplaint({
+        complaintId,
+        priority,
+        assignedTo
+      }).unwrap();
 
-      if (!res.ok) throw new Error("Update failed");
+      if (response?.success) {
+        toast.success(response.message, { autoClose: 2000 });
 
-      toast.success("Complaint updated successfully");
+        const upatedComplaint: IComplaint = response.complaints[0];
+        setPriority(upatedComplaint.priority ?? complaintPriority.low);
+        setAssignedTo(upatedComplaint.assignedTo ?? "");
+      } else {
+        toast.error(response.message, { autoClose: 2000 });
+      }
     } catch (error) {
       toast.error("Something went wrong while updating");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -81,7 +91,7 @@ const Page = () => {
   const time = new Date(singleComplaint.registrationTime).toTimeString();
   return (
     <div className="max-w-3xl mx-auto mt-10">
-      {loading && <Spinner />}
+      {isLoading && <Spinner />}
       <Card className="shadow-md border border-gray-200 rounded-2xl">
         <CardHeader>
           <CardTitle className="text-xl font-semibold text-gray-800">
@@ -94,7 +104,7 @@ const Page = () => {
             <p className="text-gray-600 font-medium text-lg">
               User Information
             </p>
-            <div className="flex gap-3 justify-around w-full mt-3">
+            <div className="flex flex-col md:flex-row gap-3 justify-around w-full mt-3">
               <div>
                 <Label className="text-gray-600">Name of Applicant</Label>
                 <p className="font-medium">
@@ -121,7 +131,7 @@ const Page = () => {
             <p className="text-gray-600 font-medium text-lg">
               Complaint Information
             </p>
-            <div className="flex gap-3 justify-around w-full mt-3">
+            <div className="flex md:flex-row flex-col gap-3 justify-around w-full mt-3">
               <div className="w-1/3">
                 <Label className="text-gray-600">Complaint ID</Label>
                 <p className="font-medium">{singleComplaint._id}</p>
@@ -137,7 +147,7 @@ const Page = () => {
 
             <div className="grid md:grid-cols-2 mt-4 gap-4">
               <div>
-                <Label>Status</Label>
+                <Label className="my-2">Status</Label>
                 <Select
                   value={status}
                   disabled
@@ -157,7 +167,7 @@ const Page = () => {
               </div>
 
               <div>
-                <Label>Priority</Label>
+                <Label className="my-2">Priority</Label>
                 <Select
                   value={priority}
                   onValueChange={(value: complaintPriority) =>
@@ -178,10 +188,10 @@ const Page = () => {
               </div>
 
               <div>
-                <Label>Task Assign To</Label>
+                <Label className="my-2">Task Assign To</Label>
                 <Select
-                  value={assignTo}
-                  onValueChange={(value) => setAssignTo(value)}
+                  value={assignedTo}
+                  onValueChange={(value) => setAssignedTo(value)}
                 >
                   <SelectTrigger className="w-full bg-white border mt-1">
                     <SelectValue placeholder="Select team member" />
@@ -208,10 +218,10 @@ const Page = () => {
           <div className="flex justify-end pt-4">
             <Button
               onClick={handleUpdate}
-              disabled={loading}
+              disabled={isLoading}
               className="px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
             >
-              {loading ? "Updating..." : "Save Changes"}
+              {isLoading ? "Updating..." : "Update Changes"}
             </Button>
           </div>
         </CardContent>

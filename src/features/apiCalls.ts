@@ -3,6 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface IComplainstResponse {
   complaints: IComplaint[];
+  success?: boolean;
+  message?: string;
 }
 export const createComplaintsAPI = createApi({
   reducerPath: "complaintsApi",
@@ -29,11 +31,23 @@ export const createComplaintsAPI = createApi({
       }
     ),
     getComplaintById: _builder.query<IComplaint, { trackingId: string }>({
-      query: (trackingId) => ({
+      query: ({ trackingId }) => ({
         url: `/complaints/get-complaint/${trackingId}`,
         method: "GET"
       }),
       providesTags: ["complaints"]
+    }),
+    updateComplaint: _builder.mutation<
+      IComplainstResponse,
+      { complaintId: string; priority: string; assignedTo: string }
+    >({
+      query: ({ complaintId, priority, assignedTo }) => ({
+        url: `/complaints/update-complaint/${complaintId}`,
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priority, assignedTo })
+      }),
+      invalidatesTags: ["complaints"]
     })
   })
 });
@@ -41,5 +55,6 @@ export const createComplaintsAPI = createApi({
 export const {
   useGetAllComplaintsQuery,
   useRegisterComplaintMutation,
-  useGetComplaintByIdQuery
+  useGetComplaintByIdQuery,
+  useUpdateComplaintMutation
 } = createComplaintsAPI;

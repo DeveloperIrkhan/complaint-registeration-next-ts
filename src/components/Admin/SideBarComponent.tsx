@@ -44,13 +44,13 @@ const SideBarComponent = () => {
           <div className="m-0 p-0">
             <CollapsibleButton title="Manage Complaints">
               <Link
-                href="/manage-complaints"
+                href="/dashboard/manage-complaints"
                 className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-accent-color/20"
               >
                 <Icon iconName={images.complainticon} /> Show All Complaints
               </Link>
               <Link
-                href="/products/edit-product"
+                href="/dashboard/edit-product"
                 className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-accent-color/20"
               >
                 <Icon iconName={images.workingicon} /> Edit Coompaint
@@ -122,7 +122,7 @@ const SideBarComponent = () => {
               <Icon iconName={images.complainticon} /> Show All Complaints
             </Link>
             <Link
-              href="/products/edit-product"
+              href="/dashboard/edit-complaints"
               className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-accent-color/20"
             >
               <Icon iconName={images.workingicon} /> Edit Coompaint

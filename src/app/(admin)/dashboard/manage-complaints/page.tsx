@@ -15,13 +15,16 @@ import { useComplaintStore } from "@/features/store";
 import { Eye } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect } from "react";
+import { useUserStore } from "@/features/UserStore";
 
 const Page = () => {
   const { complaints } = useComplaintStore();
+  const { users } = useUserStore();
 
   useEffect(() => {
     console.log(complaints);
   }, [complaints]);
+  useEffect(() => {}, [users]);
 
   return (
     <div className="px-4 h-full w-full flex flex-col">
@@ -59,7 +62,7 @@ const Page = () => {
           {complaints.length > 0 ? (
             complaints.map((item, index) => {
               const date = new Date(item.registrationTime).toDateString();
-
+              const assignedUser = users.find((x) => x._id === item.assignedTo);
               return (
                 <TableRow key={item._id}>
                   <TableCell className="font-medium max-w-[180px] truncate">
@@ -69,7 +72,7 @@ const Page = () => {
                       {item.complaint}
                     </TableCell> */}
                   <TableCell className="max-w-[160px] truncate">
-                    {item.assignedTo}
+                    {assignedUser?.name ?? ""}
                   </TableCell>
 
                   <TableCell>
