@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+
 @import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap");
 
 @custom-variant dark (&:is(.dark *));
@@ -51,14 +52,14 @@
   --font-Jost: "Jost", sans-serif;
   --color-primary-color: #2563eb;
   --color-secondry-color: #10b981;
-  --color-accent-color: #1D4ED8;
+  --color-accent-color: #1d4ed8;
   --color-forth-color: #2c0e37;
   --color-bg-color: #f9fafb;
   --color-text-color: #111827;
   --color-main-brand-color: #bd001c;
   --color-accent-brand-color: #14b8a6;
   --color-bg-Neutral-color: #f9fafb;
-  --color-hover-effect:#1D4ED8;
+  --color-hover-effect: #1d4ed8;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -134,9 +135,9 @@
 }
 
 @layer base {
-  * {
+  /* * {
     @apply border-border outline-ring/50;
-  }
+  } */
   body {
     @apply bg-background text-foreground;
   }
@@ -155,7 +156,7 @@
   .bordered {
     @apply border border-black;
   }
-    .custom-input {
+  .custom-input {
     @apply border px-2 py-1.5 rounded-lg border-gray-400 w-full focus:outline-none focus:border-main-brand-color;
   }
 }

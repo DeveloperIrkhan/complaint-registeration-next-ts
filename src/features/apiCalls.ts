@@ -6,6 +6,11 @@ interface IComplainstResponse {
   success?: boolean;
   message?: string;
 }
+interface IComplaintResponse {
+  message: string;
+  success?: boolean;
+  registeredComplaint?: IComplaint;
+}
 export const createComplaintsAPI = createApi({
   reducerPath: "complaintsApi",
   baseQuery: fetchBaseQuery({
@@ -30,7 +35,10 @@ export const createComplaintsAPI = createApi({
         invalidatesTags: ["complaints"]
       }
     ),
-    getComplaintById: _builder.query<IComplaint, { trackingId: string }>({
+    getComplaintById: _builder.query<
+      IComplaintResponse,
+      { trackingId: string }
+    >({
       query: ({ trackingId }) => ({
         url: `/complaints/get-complaint/${trackingId}`,
         method: "GET"

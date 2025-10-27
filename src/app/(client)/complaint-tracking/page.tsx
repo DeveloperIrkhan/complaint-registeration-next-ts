@@ -2,28 +2,33 @@
 import Spinner from "@/components/Spinner/Spinner";
 import { complaintStatus } from "@/enums/complaintStatus";
 import { useGetComplaintByIdQuery } from "@/features/apiCalls";
+import { IComplaint } from "@/interfaces/interfaces";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const Page = () => {
   const [trackingId, setTrackingId] = useState("");
-  const [complaint, setComplaint] = useState<any>(null);
-  const { data, isLoading, isFetching, refetch } =
-    useGetComplaintByIdQuery(trackingId);
+  const [complaint, setComplaint] = useState<IComplaint | null>(null);
+
+  const { data, isLoading, isFetching, refetch } = useGetComplaintByIdQuery({
+    trackingId
+  });
   const fetchComplaint = async () => {
-    if (!trackingId) return toast.error("Enter a valid tracking ID");
-    const result = await refetch();
-    console.log(result.data);
+    if (!trackingId.trim()) {
+      toast.error("Enter a valid tracking ID");
+      return;
+    }
+    console.log(data?.registeredComplaint);
     try {
-      if (result.data?.success === true) {
-        setComplaint(result.data?.registeredComplaint);
-        toast.success(result.data?.message);
+      if (data?.success) {
+        setComplaint(data?.registeredComplaint ?? null);
+        toast.success(data?.message);
       } else {
-        toast.error(result.data?.message);
+        toast.error(data?.message);
         setComplaint(null);
       }
     } catch (error: any) {
-      toast.error(result?.data?.message || "Complaint not found!");
+      toast.error(data?.message || "Complaint not found!");
       setComplaint(null);
       console.log("complaint", complaint);
     }
@@ -139,7 +144,9 @@ const Page = () => {
                 </p>
                 <p className="text-sm text-gray-600">
                   <strong>Last Updated:</strong>{" "}
-                  {new Date(complaint.updatedAt).toLocaleString()}
+                  {complaint.updatedAt
+                    ? new Date(complaint.updatedAt).toLocaleString()
+                    : "Not available"}
                 </p>
               </div>
             </div>
