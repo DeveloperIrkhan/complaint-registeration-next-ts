@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@/store/StoreProvider";
 import React from "react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,6 +19,7 @@ export default function RootLayout({
       <body>
         <StoreProvider>
           <div className="flex w-full flex-col min-h-screen">
+            <SpeedInsights />
             <main className="flex-1">{children}</main>
           </div>
         </StoreProvider>
