@@ -1,14 +1,10 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect } from "react";
-import { toast } from "react-toastify";
 import { images } from "../Images";
 import Link from "next/link";
 
 const page = () => {
-  useEffect(() => {
-    toast.success("page loaded");
-  }, []);
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       <div className="flex-1 flex items-center justify-center bg-gradient-to-t to-sky-100 from-indigo-200 md:bg-white px-6 md:px-12">

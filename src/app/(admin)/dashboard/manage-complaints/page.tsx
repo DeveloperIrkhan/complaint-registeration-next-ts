@@ -20,7 +20,6 @@ import { useUserStore } from "@/features/UserStore";
 const Page = () => {
   const { complaints } = useComplaintStore();
   const { users } = useUserStore();
-
   useEffect(() => {
     console.log(complaints);
   }, [complaints]);

@@ -5,7 +5,13 @@ import { jwtVerify } from "jose";
 const adminProtectedRoutes = ["/dashboard"];
 const techProtectedRoutes = ["/user-dashboard"];
 
-const publicRoutes = ["/", "/about", "/contact"];
+const publicRoutes = [
+  "/",
+  "/about",
+  "/contact",
+  "/register-complaint",
+  "/complaint-tracking"
+];
 // const JWT_ACCESSTOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const secret = process.env.ACCESS_TOKEN_SECRET;
 if (!secret) {

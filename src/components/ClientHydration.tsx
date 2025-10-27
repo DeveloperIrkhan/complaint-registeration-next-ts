@@ -23,7 +23,15 @@ const ClientHydration = () => {
   } = useGetAllUserQuery(undefined, { skip: users.length > 0 });
   useEffect(() => {
     if (data?.complaints) {
-      setComplaints(data?.complaints);
+      setComplaints(
+        [...data?.complaints].sort(
+          (a, b) =>
+            new Date(b.registrationTime).getTime() -
+            new Date(a.registrationTime).getTime()
+        )
+      );
+      console.log("complaints", data?.complaints);
+      console.log("sorted complaints", complaints);
     }
   }, [data]);
   useEffect(() => {

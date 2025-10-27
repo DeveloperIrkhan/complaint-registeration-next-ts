@@ -34,6 +34,8 @@ export interface IComplaint {
   complaintStatus?: complaintStatus;
   registrationTime: string;
   completionTime?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 
 export interface IUserModel {

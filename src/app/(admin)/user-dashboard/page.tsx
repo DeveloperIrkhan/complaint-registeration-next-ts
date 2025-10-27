@@ -42,9 +42,13 @@ const page = () => {
 
   useEffect(() => {
     const loggedInUser = getWithExpirys<IUserLoginProps>("userLogin");
-    const myComplaints = complaints.filter(
-      (item) => item.assignedTo === loggedInUser?._id
-    );
+    const myComplaints = complaints
+      .filter((item) => item.assignedTo === loggedInUser?._id)
+      .sort(
+        (a, b) =>
+          new Date(b.updatedAt ?? "").getDate() -
+          new Date(a.updatedAt ?? "").getDate()
+      );
     setRelatedComplaints(myComplaints ?? []);
     console.log("myComplaints", myComplaints);
   }, [complaints]);
@@ -79,7 +83,9 @@ const page = () => {
     totalPendingComplaints
   ]);
 
-  const handleUpdate = () => {};
+  const handleUpdate = (e: React.FormEvent) => {
+    e.preventDefault();
+  };
   return (
     <Container className="">
       <div className="my-3">
@@ -96,24 +102,29 @@ const page = () => {
           chartTitle="Total Assigned"
           totalValue={complaints.length ?? 0}
           calculatedValue={totalAssignComplaints ?? 0}
+          insideTitle="Total Complaints"
         />
         <PieChart
           chartTitle="In-Progress"
           totalValue={totalAssignComplaints ?? 0}
+          insideTitle="In progress"
           calculatedValue={totalInProgressComplaints ?? 0}
         />
         <PieChart
+          insideTitle="Incomplete"
           chartTitle="Incomplete"
           totalValue={totalAssignComplaints ?? 0}
           calculatedValue={incompleteComplaints ?? 0}
         />
         <PieChart
+          insideTitle="pending"
           chartTitle="pending"
           totalValue={totalAssignComplaints ?? 0}
           calculatedValue={totalPendingComplaints ?? 0}
         />
         <PieChart
-          chartTitle="completed"
+          chartTitle="completed/Resolved"
+          insideTitle="completed/Resolved"
           totalValue={totalAssignComplaints ?? 0}
           calculatedValue={completedComplaints ?? 0}
         />
@@ -148,7 +159,9 @@ const page = () => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger>
                     <div className="flex w-full justify-between">
-                      <span>{complaint.complaint}</span>
+                      <span className="font-semibold line-clamp-1">
+                        {complaint.complaint}
+                      </span>
                       <span className="text-end">
                         {complaint.complaintStatus}
                       </span>
@@ -196,10 +209,7 @@ const page = () => {
                               </p>
                             </div>
                           </div>
-                        </div>
-
-                        <div className="bg-gray-100 rounded-md shadow-lg p-2 w-full">
-                          <p className="text-gray-600 font-medium text-lg">
+                          <p className="text-gray-600 mt-10 font-medium text-lg">
                             Complaint Information
                           </p>
                           <div className="flex md:flex-row flex-col gap-3 justify-around w-full mt-3">
@@ -251,7 +261,7 @@ const page = () => {
                             <div>
                               <Label className="my-2">Priority</Label>
                               <Select
-                                value={priority}
+                                value={complaint.priority}
                                 onValueChange={(value: complaintPriority) =>
                                   setPriority(value)
                                 }

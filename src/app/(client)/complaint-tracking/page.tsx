@@ -6,24 +6,27 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const Page = () => {
-  const [trackingId, setTrackingId] = useState("");
+  const [trackingId, setTrackingId] = useState<string>("");
   const [complaint, setComplaint] = useState<any>(null);
-  const { data, isLoading, isFetching, refetch } =
-    useGetComplaintByIdQuery(trackingId);
+  const { data, isLoading, isFetching, refetch } = useGetComplaintByIdQuery(
+    {
+      trackingId
+    },
+    { skip: !trackingId }
+  );
   const fetchComplaint = async () => {
     if (!trackingId) return toast.error("Enter a valid tracking ID");
-    const result = await refetch();
-    console.log(result.data);
+    console.log("data coming from", data);
     try {
-      if (result.data?.success === true) {
-        setComplaint(result.data?.registeredComplaint);
-        toast.success(result.data?.message);
+      if (data?.success === true) {
+        setComplaint(data?.registeredComplaint);
+        toast.success(data?.message);
       } else {
-        toast.error(result.data?.message);
+        toast.error(data?.message);
         setComplaint(null);
       }
     } catch (error: any) {
-      toast.error(result?.data?.message || "Complaint not found!");
+      toast.error(data?.message || "Complaint not found!");
       setComplaint(null);
       console.log("complaint", complaint);
     }
