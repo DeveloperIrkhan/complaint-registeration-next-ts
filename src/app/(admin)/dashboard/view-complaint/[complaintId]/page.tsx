@@ -66,6 +66,7 @@ const Page = () => {
 
       if (response?.success) {
         toast.success(response.message, { autoClose: 2000 });
+
         const upatedComplaint: IComplaint = response.complaints[0];
         setPriority(upatedComplaint.priority ?? complaintPriority.low);
         setAssignedTo(upatedComplaint.assignedTo ?? "");

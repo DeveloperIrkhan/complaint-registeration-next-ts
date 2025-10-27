@@ -14,10 +14,9 @@ const Spinner = () => {
           width={100}
           height={100}
           alt="Loading Spinner"
-          className="w-36 h-36 animate"
+          className="w-36 h-36 animate-spin"
         />
       </div>
-      
     </div>
   );
 };

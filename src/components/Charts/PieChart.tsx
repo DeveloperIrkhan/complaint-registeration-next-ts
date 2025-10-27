@@ -1,15 +1,13 @@
 import React from "react";
 interface IPieChartProps {
   chartTitle: string;
-  insideTitle?: string;
   calculatedValue: number;
   totalValue: number;
 }
 const PieChart = ({
   calculatedValue,
   chartTitle,
-  totalValue,
-  insideTitle
+  totalValue
 }: IPieChartProps) => {
   const getColor = (persentage: number) => {
     if (persentage <= 25) return "#f44336"; // Red
@@ -43,9 +41,7 @@ const PieChart = ({
           <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-gray-50 rounded-full transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
             <div className="text-center">
               <p className="text-lg font-bold">{calculatedValue}</p>
-              <p className="text-xs text-gray-400">
-                {insideTitle ? `${insideTitle}` : "Total"}
-              </p>
+              <p className="text-xs text-gray-500">Total</p>
             </div>
           </div>
         </div>

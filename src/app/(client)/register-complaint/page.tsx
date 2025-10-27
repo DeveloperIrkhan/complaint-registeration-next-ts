@@ -76,7 +76,7 @@ const page = () => {
                           id="name"
                           name="name"
                           type="text"
-                          placeholder="Enter Your Full Name"
+                          placeholder="Enter Your FUll Name"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           required
