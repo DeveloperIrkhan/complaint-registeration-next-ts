@@ -10,7 +10,7 @@ const Page = () => {
   const [trackingId, setTrackingId] = useState("");
   const [complaint, setComplaint] = useState<IComplaint | null>(null);
 
-  const { data, isLoading, isFetching, refetch } = useGetComplaintByIdQuery({
+  const { data, isLoading, isFetching } = useGetComplaintByIdQuery({
     trackingId
   });
   const fetchComplaint = async () => {
