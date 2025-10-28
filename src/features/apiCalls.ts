@@ -6,6 +6,11 @@ interface IComplainstResponse {
   success?: boolean;
   message?: string;
 }
+interface IUpdateComplaintResponse {
+  complaint: IComplaint;
+  success?: boolean;
+  message?: string;
+}
 interface IComplaintResponse {
   message: string;
   success?: boolean;
@@ -25,16 +30,33 @@ export const createComplaintsAPI = createApi({
       }),
       providesTags: ["complaints"]
     }),
-    registerComplaint: _builder.mutation<IComplaint, { complaint: IComplaint }>(
+    registerComplaint: _builder.mutation<
       {
-        query: ({ complaint }) => ({
+        success: boolean,
+        message: string
+        complaint: IComplaint
+      },
+      FormData>
+      ({
+        query: (formData) => ({
           url: "/complaints/register",
           method: "POST",
-          body: { complaint }
+          body: formData
         }),
         invalidatesTags: ["complaints"]
       }
-    ),
+      ),
+    sendComplaintEmail: _builder.mutation<
+      { success: boolean; message: string },
+      { userEmail: string; emailType: string; trackingId: string }
+    >({
+      query: ({ userEmail, emailType, trackingId }) => ({
+        url: "/complaints/email",
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userEmail, emailType, trackingId })
+      })
+    }),
     getComplaintById: _builder.query<
       IComplaintResponse,
       { trackingId: string }
@@ -46,7 +68,7 @@ export const createComplaintsAPI = createApi({
       providesTags: ["complaints"]
     }),
     updateComplaint: _builder.mutation<
-      IComplainstResponse,
+      IUpdateComplaintResponse,
       { complaintId: string; priority: string; assignedTo: string }
     >({
       query: ({ complaintId, priority, assignedTo }) => ({
@@ -64,5 +86,6 @@ export const {
   useGetAllComplaintsQuery,
   useRegisterComplaintMutation,
   useGetComplaintByIdQuery,
-  useUpdateComplaintMutation
+  useUpdateComplaintMutation,
+  useSendComplaintEmailMutation
 } = createComplaintsAPI;

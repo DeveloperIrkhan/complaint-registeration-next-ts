@@ -66,14 +66,14 @@ const Page = () => {
 
       if (response?.success) {
         toast.success(response.message, { autoClose: 2000 });
-
-        const upatedComplaint: IComplaint = response.complaints[0];
+        const upatedComplaint: IComplaint = response.complaint;
         setPriority(upatedComplaint.priority ?? complaintPriority.low);
         setAssignedTo(upatedComplaint.assignedTo ?? "");
       } else {
         toast.error(response.message, { autoClose: 2000 });
       }
     } catch (error) {
+      console.error("Update error:", error);
       toast.error("Something went wrong while updating");
     } finally {
       setIsLoading(false);

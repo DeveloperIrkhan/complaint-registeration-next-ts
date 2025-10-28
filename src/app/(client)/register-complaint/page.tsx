@@ -1,54 +1,75 @@
 "use client";
-import { complaintPriority } from "@/enums/complaintPriority";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import axios from "axios";
 import Spinner from "@/components/Spinner/Spinner";
 import { toast } from "react-toastify";
 import { images } from "@/app/Images";
 import Image from "next/image";
+import { Label } from "@/components/ui/label";
+import {
+  useRegisterComplaintMutation,
+  useSendComplaintEmailMutation
+} from "@/features/apiCalls";
+import { ComplaintType } from "@/enums/ComplaintType/ComplaintType";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 const page = () => {
   const [name, setName] = useState<string>("");
   const [complaintId, setComplaintId] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [complaintType, setComplaintType] = useState<ComplaintType | "">("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [designation, setDesgination] = useState<string>("");
   const [department, setDepartment] = useState<string>("");
-  const [priority, setPriority] = useState<string>("");
   const [complaint, setComplaint] = useState<string>("");
+  const [registerComplaint, { isLoading: registeringLoading }] =
+    useRegisterComplaintMutation();
+  const [sendComplaintEmail, { isLoading: emailSendingLoading }] =
+    useSendComplaintEmailMutation();
 
-  const priorities = Object.keys(complaintPriority).filter((key) =>
-    isNaN(Number(key))
-  );
   const handleSubmitChanges = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    const form = new FormData();
+    const registerFormData = new FormData();
     try {
-      form.append("name", name);
-      form.append("email", email);
-      form.append("phone", phone);
-      form.append("designation", designation);
-      form.append("department", department);
-      form.append("priority", priority);
-      form.append("complaint", complaint);
-      const response = await axios.post("/api/complaints/register", form);
-      console.log("response", response.data);
-      if (response.data.success === true) {
-        console.log(response.data.complaintId);
-        setComplaintId(response.data.complaintId._id);
+      registerFormData.append("name", name);
+      registerFormData.append("email", email);
+      registerFormData.append("phone", phone);
+      registerFormData.append("designation", designation);
+      registerFormData.append("department", department);
+      registerFormData.append("complaintType", complaintType);
+      registerFormData.append("complaint", complaint);
+      const response = await registerComplaint(registerFormData).unwrap();
+      console.log("response", response);
+      if (response.success === true) {
         toast.success(
-          response.data?.message || "complaint registered successfully! ✅"
+          response.message || "complaint registered successfully! ✅"
         );
+
+        const complaintId = response.complaint?._id;
+        if (complaintId) {
+          const emailResp = await sendComplaintEmail({
+            userEmail: email,
+            emailType: "Tracking",
+            trackingId: complaintId
+          }).unwrap();
+
+          emailResp.success
+            ? toast.success(emailResp.message || "Email sent successfully! 📧")
+            : toast.error(emailResp.message || "Error sending email ❌");
+          setComplaintId(complaintId);
+        }
       } else {
-        toast.error(response.data.message);
+        toast.error(response.message);
       }
     } catch (error) {
       console.log(error);
       toast.error("error!");
     } finally {
-      setIsLoading(false);
       setName("");
       setEmail("");
       setPhone("");
@@ -59,7 +80,7 @@ const page = () => {
   };
   return (
     <div className="h-screen">
-      {isLoading && <Spinner />}
+      {(registeringLoading || emailSendingLoading) && <Spinner />}
       <div className="w-full h-full flex justify-center items-center">
         <div className="w-full flex h-full">
           <div className="md:w-1/2 w-full bg-white flex justify-center items-center">
@@ -72,96 +93,126 @@ const page = () => {
                     </p>
                     <div className="space-y-3">
                       <div className="flex gap-3 justify-around">
+                        <div className="flex gap-y-2 flex-col">
+                          <Label>Enter Your Name</Label>
+                          <input
+                            id="name"
+                            name="name"
+                            type="text"
+                            placeholder="eg. irfan shah"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                            className="w-full bg-white custom-input"
+                          />
+                        </div>
+                        <div className="flex gap-y-2 flex-col">
+                          <Label>Enter Your Phone</Label>
+                          <input
+                            id="phone"
+                            name="phone"
+                            type="text"
+                            placeholder="eg. 033312345678"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            required
+                            className="w-full custom-input  bg-white"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex gap-y-2 flex-col">
+                        <Label>Enter Your Correct Email</Label>
                         <input
-                          id="name"
-                          name="name"
+                          id="email"
+                          name="email"
                           type="text"
-                          placeholder="Enter Your FUll Name"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                          required
-                          className="w-full bg-white custom-input"
-                        />
-                        <input
-                          id="phone"
-                          name="phone"
-                          type="text"
-                          placeholder="Your Phone Number"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
+                          placeholder="eg. abc@gmail.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                           required
                           className="w-full custom-input  bg-white"
                         />
                       </div>
-                      <input
-                        id="email"
-                        name="email"
-                        type="text"
-                        placeholder="Enter Your Email Address"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        className="w-full custom-input  bg-white"
-                      />
 
                       <div className="flex gap-3 justify-around">
-                        <input
-                          id="designation"
-                          name="designation"
-                          type="text"
-                          placeholder="Enter Your designation Address"
-                          value={designation}
-                          onChange={(e) => setDesgination(e.target.value)}
-                          required
-                          className="w-full custom-input  bg-white"
-                        />
-                        <input
-                          id="department"
-                          name="department"
-                          type="text"
-                          placeholder="Enter Your Department Address"
-                          value={department}
-                          onChange={(e) => setDepartment(e.target.value)}
-                          required
-                          className="w-full custom-input  bg-white"
-                        />
+                        <div className="flex gap-y-2 flex-col">
+                          <Label>Enter Your Designation</Label>
+                          <input
+                            id="designation"
+                            name="designation"
+                            type="text"
+                            placeholder="eg. IT Officer"
+                            value={designation}
+                            onChange={(e) => setDesgination(e.target.value)}
+                            required
+                            className="w-full custom-input  bg-white"
+                          />
+                        </div>
+                        <div className="flex gap-y-2 flex-col">
+                          <Label>Enter Your Department</Label>
+                          <input
+                            id="department"
+                            name="department"
+                            type="text"
+                            placeholder="eg. Accounts"
+                            value={department}
+                            onChange={(e) => setDepartment(e.target.value)}
+                            required
+                            className="w-full custom-input bg-white"
+                          />
+                        </div>
                       </div>
-                      <select
-                        id="priority"
-                        name="priority"
-                        value={priority}
-                        onChange={(e) => setPriority(e.target.value)}
-                        className="w-full custom-input bg-white cursor-pointer"
-                      >
-                        <option value="">Select Priority</option>
-                        {priorities.map((level) => (
-                          <option key={level} value={level}>
-                            {level.charAt(0).toUpperCase() + level.slice(1)}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="flex">
-                        <textarea
-                          name="complaint"
-                          placeholder="Pleae provide your issue in details"
-                          value={complaint}
-                          rows={5}
-                          required
-                          onChange={(e) => setComplaint(e.target.value)}
-                          className={"w-full custom-input bg-white"}
-                        />
+                      <div className="flex gap-y-2 flex-col">
+                        <Label>Please Select Your Compalint Type</Label>
+                        <Select
+                          value={complaintType}
+                          onValueChange={(value: ComplaintType) =>
+                            setComplaintType(value)
+                          }
+                        >
+                          <SelectTrigger className="w-full bg-white mt-1">
+                            <SelectValue placeholder="please select complaint type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Object.values(ComplaintType).map(
+                              (complaintTypeOption) => (
+                                <SelectItem
+                                  key={complaintTypeOption}
+                                  value={complaintTypeOption}
+                                >
+                                  {complaintTypeOption}
+                                </SelectItem>
+                              )
+                            )}
+                          </SelectContent>
+                        </Select>
                       </div>
+                      <div className="flex w-full">
+                        <div className="flex gap-y-1 flex-col w-full">
+                          <Label>Enter Your Complaint</Label>
+                          <textarea
+                            name="complaint"
+                            placeholder="Please provide your issue in details"
+                            value={complaint}
+                            rows={5}
+                            required
+                            onChange={(e) => setComplaint(e.target.value)}
+                            className="w-full custom-input bg-white"
+                          />
+                        </div>
+                      </div>
+
                       <button
                         type="submit"
                         className="group relative w-full overflow-hidden h-10 px-4 py-1 
                       rounded-md text-white text-sm font-medium 
                       flex items-center justify-center gap-2 
-                      bg-sky-600"
+                      bg-red-300"
                       >
                         <span
                           className="absolute inset-0  transform -translate-x-full
                          group-hover:translate-x-0 transition-transform duration-500
-                          ease-out z-0 bg-black"
+                          ease-out z-0 bg-red-800"
                         ></span>
                         <span className="relative z-10 flex items-center gap-2">
                           Register Complaint
@@ -176,16 +227,23 @@ const page = () => {
                     your complaint Id is{" "}
                     <span className="font-bold">{complaintId.toString()}</span>
                   </p>
+                  <p className="font-semibold italic text-[14px]">
+                    Please remember this Tracking Id for Tracking Your Complaint
+                  </p>
+                  <p className="font-semibold italic text-[14px]">
+                    We have also send you a link in Email to track your
+                    complaint
+                  </p>
                 </div>
               )}
             </div>
           </div>
           <div className={`md:w-1/2 w-full md:block hidden overflow-hidden`}>
             <motion.div
-              animate={{ scale: [1, 1.2, 1], rotate: [0, 1, -2, 0] }}
+              animate={{ scale: [1, 1.1, 1], rotate: [0, 1, -2, 0] }}
               transition={{
                 repeat: Infinity,
-                duration: 10,
+                duration: 20,
                 ease: "easeInOut"
               }}
               className="relative w-full h-full bg-cover bg-center mx-auto"
@@ -193,9 +251,9 @@ const page = () => {
               <Image
                 src={images.customerCarePNG}
                 alt="shopping-cart"
-                layout="fill"
-                objectFit="contain"
-                className="overflow-hidden"
+                fill
+                className="object-contain overflow-hidden"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
               />
             </motion.div>
           </div>

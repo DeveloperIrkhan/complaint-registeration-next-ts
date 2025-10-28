@@ -5,7 +5,8 @@ import { jwtVerify } from "jose";
 const adminProtectedRoutes = ["/dashboard"];
 const techProtectedRoutes = ["/user-dashboard"];
 
-const publicRoutes = ["/", "/about", "/contact","/register-complaint","/complaint-tracking"];
+const publicRoutes = ["/", "/about", "/contact", "/register-complaint", "/complaint-tracking"];
+const publicRoutePrefixes = ["/complaint-tracking"];
 // const JWT_ACCESSTOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const secret = process.env.ACCESS_TOKEN_SECRET;
 if (!secret) {
@@ -19,7 +20,7 @@ export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const accessToken = request.cookies.get("accessToken")?.value;
 
-  if (publicRoutes.includes(path)) {
+  if (publicRoutes.includes(path) || publicRoutePrefixes.some((prefix) => path.startsWith(prefix))) {
     return NextResponse.next();
   }
   if (path.startsWith("/auth") && !accessToken) {

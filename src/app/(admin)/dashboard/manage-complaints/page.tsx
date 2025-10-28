@@ -20,10 +20,14 @@ import { useUserStore } from "@/features/UserStore";
 const Page = () => {
   const { complaints } = useComplaintStore();
   const { users } = useUserStore();
-
+  const sortedComplaints = [...complaints].sort(
+    (a, b) =>
+      new Date(b.updatedAt ?? "").getDate() -
+      new Date(a.updatedAt ?? "").getDate()
+  );
   useEffect(() => {
-    console.log(complaints);
-  }, [complaints]);
+    // console.log(complaints);
+  }, [complaints, sortedComplaints]);
   useEffect(() => {}, [users]);
 
   return (
@@ -41,7 +45,8 @@ const Page = () => {
         <TableHeader className="bg-gray-100">
           <TableRow>
             {[
-              "Name",
+              "Username",
+              "Type",
               "Assigned To",
               "Status",
               "Priority",
@@ -50,7 +55,7 @@ const Page = () => {
             ].map((heading) => (
               <TableHead
                 key={heading}
-                className="w-[100px] font-semibold text-gray-700"
+                className="w-[100px] text-center font-semibold text-gray-700"
               >
                 {heading}
               </TableHead>
@@ -59,27 +64,33 @@ const Page = () => {
         </TableHeader>
 
         <TableBody>
-          {complaints.length > 0 ? (
-            complaints.map((item, index) => {
+          {sortedComplaints.length > 0 ? (
+            sortedComplaints.map((item, index) => {
               const date = new Date(item.registrationTime).toDateString();
               const assignedUser = users.find((x) => x._id === item.assignedTo);
               return (
                 <TableRow key={item._id}>
-                  <TableCell className="font-medium max-w-[180px] truncate">
+                  <TableCell className="font-medium  text-center max-w-[180px] truncate">
                     {item.name}
                   </TableCell>
-                  {/* <TableCell className="max-w-[200px] truncate">
-                      {item.complaint}
-                    </TableCell> */}
-                  <TableCell className="max-w-[160px] truncate">
-                    {assignedUser?.name ?? ""}
+                  <TableCell className="max-w-[200px]  text-center truncate">
+                    {item.complaintType}
+                  </TableCell>
+                  <TableCell className="max-w-[150px] text-center truncate">
+                    {assignedUser?.name ? (
+                      <p className="border rounded-md">{assignedUser?.name}</p>
+                    ) : (
+                      "_"
+                    )}
                   </TableCell>
 
                   <TableCell>
                     <span
-                      className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
-                        item.complaintStatus === complaintStatus.closed ||
-                        item.complaintStatus === complaintStatus.resolved
+                      className={`inline-flex w-full justify-center items-center px-2 py-1 rounded text-xs font-medium ${
+                        item.complaintStatus === complaintStatus.pending
+                          ? "bg-blue-100 text-blue-700"
+                          : item.complaintStatus === complaintStatus.closed ||
+                            item.complaintStatus === complaintStatus.resolved
                           ? "bg-green-100 text-green-700"
                           : item.complaintStatus === complaintStatus.in_progress
                           ? "bg-yellow-100 text-yellow-800"
@@ -92,11 +103,13 @@ const Page = () => {
 
                   <TableCell>
                     <span
-                      className={`inline-block px-2 py-1 text-xs font-semibold rounded ${
-                        item.priority === complaintPriority.critical
+                      className={` w-full flex justify-center items-center px-2 py-1 text-xs font-semibold rounded ${
+                        item.priority === complaintPriority.high
+                          ? "bg-amber-200 text-amber-700"
+                          : item.priority === complaintPriority.critical
                           ? "bg-red-200 text-red-800"
                           : item.priority === complaintPriority.medium
-                          ? "bg-yellow-200 text-yellow-800"
+                          ? "bg-pink-200 text-pink-800"
                           : "bg-green-200 text-green-800"
                       }`}
                     >
@@ -104,7 +117,7 @@ const Page = () => {
                     </span>
                   </TableCell>
 
-                  <TableCell>{date}</TableCell>
+                  <TableCell className=" text-center">{date}</TableCell>
 
                   <TableCell className="flex justify-center items-center">
                     <Link href={`/dashboard/view-complaint/${item._id}`}>

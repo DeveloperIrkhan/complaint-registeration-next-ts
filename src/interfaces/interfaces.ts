@@ -1,5 +1,6 @@
 import { complaintPriority } from "@/enums/complaintPriority";
 import { complaintStatus } from "@/enums/complaintStatus";
+import { ComplaintType } from "@/enums/ComplaintType/ComplaintType";
 import { userRole } from "@/enums/userRole";
 import { Types } from "mongoose";
 
@@ -12,6 +13,7 @@ export interface IComplaintModels {
   designation?: string;
   department: string;
   complaint: string;
+  complaintType: ComplaintType;
   assignedTo?: Types.ObjectId | null;
   priority?: complaintPriority;
   complaintStatus?: complaintStatus;
@@ -29,6 +31,7 @@ export interface IComplaint {
   designation?: string;
   department: string;
   complaint: string;
+  complaintType: ComplaintType
   assignedTo?: string | null;
   priority?: complaintPriority;
   complaintStatus?: complaintStatus;

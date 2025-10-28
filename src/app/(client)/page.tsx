@@ -7,15 +7,16 @@ import Link from "next/link";
 
 const page = () => {
   useEffect(() => {
-    toast.success("page loaded");
+    toast.success("Welcome to PRCS Complaint Registeration!", 
+      {autoClose:5000});
   }, []);
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      <div className="flex-1 flex items-center justify-center bg-gradient-to-t to-sky-100 from-indigo-200 md:bg-white px-6 md:px-12">
+      <div className="flex-1 flex items-center justify-center bg-linear-30 to-red-100 from-orange-200 md:bg-white px-6 md:px-12">
         <div className="w-full max-w-sm">
           <div className="text-center my-10">
             <div className="flex items-center group justify-center gap-4">
-              <div className="h-[2px] w-10 bg-black"></div>
+              <div className="h-0.5 w-10 bg-black"></div>
               <h2
                 className={
                   "text-black text-xl md:text-xl font-semibold uppercase tracking-wide"
@@ -23,12 +24,12 @@ const page = () => {
               >
                 Welcome! Valued User
               </h2>
-              <div className="h-[2px] w-10 bg-black"></div>
+              <div className="h-0.5 w-10 bg-black"></div>
             </div>
 
             {/* Subtitle */}
-            <p className={`text-sm italic text-gray-500 mt-2`}>
-              Register Your Complaint Online.
+            <p className={`text-lg italic text-gray-500 mt-1`}>
+              Register Your Online Complaint.
             </p>
           </div>
           <div className="cursor-pointer flex justify-center items-center gap-3">
@@ -72,7 +73,7 @@ const page = () => {
 
       <div
         className="hidden flex-1 
-      bg-gradient-to-tl to-indigo-500 from-sky-300 md:flex items-center justify-center p-6 relative"
+      bg-radial from-40% to-red-500 from-amber-500 md:flex items-center justify-center p-6 relative"
       >
         <div className="z-10 text-center h-full flex items-center">
           <Image

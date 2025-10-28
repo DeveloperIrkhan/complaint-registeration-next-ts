@@ -36,15 +36,18 @@ const page = () => {
   const { complaints } = useComplaintStore();
   const [relatedComplaints, setRelatedComplaints] = useState<IComplaint[]>();
   const [isLoading, setIsLoading] = useState(false);
-  const [complaintId, setCompalintId] = useState("");
   const [priority, setPriority] = useState<complaintPriority | "">("");
   const [status, setStatus] = useState<complaintStatus | "">("");
 
   useEffect(() => {
     const loggedInUser = getWithExpirys<IUserLoginProps>("userLogin");
-    const myComplaints = complaints.filter(
-      (item) => item.assignedTo === loggedInUser?._id
-    );
+    const myComplaints = complaints
+      .filter((item) => item.assignedTo === loggedInUser?._id)
+      .sort(
+        (a, b) =>
+          new Date(b.updatedAt ?? "").getDate() -
+          new Date(a.updatedAt ?? "").getDate()
+      );
     setRelatedComplaints(myComplaints ?? []);
     console.log("myComplaints", myComplaints);
   }, [complaints]);
@@ -78,8 +81,9 @@ const page = () => {
     totalInProgressComplaints,
     totalPendingComplaints
   ]);
-
-  const handleUpdate = () => {};
+  const handleUpdate = (e: React.FormEvent) => {
+    e.preventDefault();
+  };
   return (
     <Container className="">
       <div className="my-3">
@@ -93,26 +97,31 @@ const page = () => {
       </div>
       <div className="bg-gray-100 rounded-xl p-4 gap-2 grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 justify-center items-center">
         <PieChart
+          insideTitle="Your Toatal Tasks"
           chartTitle="Total Assigned"
           totalValue={complaints.length ?? 0}
           calculatedValue={totalAssignComplaints ?? 0}
         />
         <PieChart
+          insideTitle="In-Progress Task"
           chartTitle="In-Progress"
           totalValue={totalAssignComplaints ?? 0}
           calculatedValue={totalInProgressComplaints ?? 0}
         />
         <PieChart
+          insideTitle="Incomplete Tasks"
           chartTitle="Incomplete"
           totalValue={totalAssignComplaints ?? 0}
           calculatedValue={incompleteComplaints ?? 0}
         />
         <PieChart
+          insideTitle="Pending Tasks"
           chartTitle="pending"
           totalValue={totalAssignComplaints ?? 0}
           calculatedValue={totalPendingComplaints ?? 0}
         />
         <PieChart
+          insideTitle="Completed Tasks"
           chartTitle="completed"
           totalValue={totalAssignComplaints ?? 0}
           calculatedValue={completedComplaints ?? 0}
@@ -196,10 +205,7 @@ const page = () => {
                               </p>
                             </div>
                           </div>
-                        </div>
-
-                        <div className="bg-gray-100 rounded-md shadow-lg p-2 w-full">
-                          <p className="text-gray-600 font-medium text-lg">
+                          <p className="text-gray-600 mt-10 font-medium text-lg">
                             Complaint Information
                           </p>
                           <div className="flex md:flex-row flex-col gap-3 justify-around w-full mt-3">
@@ -251,7 +257,7 @@ const page = () => {
                             <div>
                               <Label className="my-2">Priority</Label>
                               <Select
-                                value={priority}
+                                value={complaint.priority}
                                 onValueChange={(value: complaintPriority) =>
                                   setPriority(value)
                                 }
