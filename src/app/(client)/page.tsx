@@ -12,23 +12,23 @@ const page = () => {
   }, []);
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      <div className="flex-1 flex items-center justify-center bg-linear-30 to-red-100 from-orange-200 md:bg-white px-6 md:px-12">
+      <div className="flex-1 flex items-center justify-center px-6 md:px-12">
         <div className="w-full max-w-sm">
           <div className="text-center my-10">
             <div className="flex items-center group justify-center gap-4">
-              <div className="h-0.5 w-10 bg-black"></div>
+              <div className="h-0.5 w-10 bg-red-500"></div>
               <h2
                 className={
-                  "text-black text-xl md:text-xl font-semibold uppercase tracking-wide"
+                  "text-red-500 text-xl md:text-xl font-semibold uppercase tracking-wide"
                 }
               >
                 Welcome! Valued User
               </h2>
-              <div className="h-0.5 w-10 bg-black"></div>
+              <div className="h-0.5 w-10 bg-red-500"></div>
             </div>
 
             {/* Subtitle */}
-            <p className={`text-lg italic text-gray-500 mt-1`}>
+            <p className={`text-lg italic text-red-500 mt-1`}>
               Register Your Online Complaint.
             </p>
           </div>
@@ -36,11 +36,7 @@ const page = () => {
             <Link href={"/register-complaint"}>
               {" "}
               <div
-                className="flex flex-col justify-center items-center
-             border-2 border-gray-300 text-gray-700 
-             bg-gray-50 shadow-md space-y-3 p-4 h-44 w-44 rounded-2xl
-              duration-300 hover:translate-y-2
-              hover:bg-gray-200 hover:shadow-[0_0_25px_rgba(255,180,0,0.7)] "
+                className="flex flex-col justify-center items-center custom-shadow"
               >
                 <Image
                   src={images.registeringComplaint}
@@ -53,10 +49,7 @@ const page = () => {
             </Link>
             <Link href={"complaint-tracking"}>
               <div
-                className="cursor-pointer flex flex-col justify-center items-center
-              border-2 border-gray-300 text-gray-700 
-              bg-gray-50 shadow-md space-y-3 p-4 h-44 w-44 rounded-2xl hover:translate-y-2
-              duration-300 hover:bg-gray-200 hover:shadow-[0_0_25px_rgba(255,180,0,0.7)] "
+                className="flex flex-col justify-center items-center custom-shadow"
               >
                 <Image
                   src={images.trackingComplaint}
@@ -72,12 +65,11 @@ const page = () => {
       </div>
 
       <div
-        className="hidden flex-1 
-      bg-radial from-40% to-red-500 from-amber-500 md:flex items-center justify-center p-6 relative"
+        className="hidden flex-1 bg-custom-radial md:flex items-center justify-center p-6 relative"
       >
         <div className="z-10 text-center h-full flex items-center">
           <Image
-            src={images.customerPng}
+            src={images.customerCarePNG}
             alt="Auth illustrations"
             width={400}
             height={350}
