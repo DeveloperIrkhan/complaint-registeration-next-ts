@@ -6,7 +6,7 @@ import { complaintStatus } from "@/enums/complaintStatus";
 import { useComplaintStore } from "@/features/store";
 import { getWithExpirys } from "@/helpers/storageHelper";
 import { IComplaint } from "@/interfaces/interfaces";
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -24,6 +24,8 @@ import {
 } from "@/components/ui/select";
 import { complaintPriority } from "@/enums/complaintPriority";
 import { Button } from "@/components/ui/button";
+import { useUpdateComplaintStatusMutation } from "@/features/apiCalls";
+import { toast } from "react-toastify";
 
 const page = () => {
   interface IUserLoginProps {
@@ -38,7 +40,7 @@ const page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [priority, setPriority] = useState<complaintPriority | "">("");
   const [status, setStatus] = useState<complaintStatus | "">("");
-
+  const [updateComplaintStatus] = useUpdateComplaintStatusMutation();
   useEffect(() => {
     const loggedInUser = getWithExpirys<IUserLoginProps>("userLogin");
     const myComplaints = complaints
@@ -68,21 +70,31 @@ const page = () => {
       complaint.complaintStatus === complaintStatus.closed
   ).length;
 
-  useEffect(() => {
-    console.log("incomplete", incompleteComplaints);
-    console.log("assigned", totalAssignComplaints);
-    console.log("in_progress", totalInProgressComplaints);
-    console.log("pending", totalPendingComplaints);
-    console.log("completedComplaints", completedComplaints);
-    console.log("total complaint", complaints.length);
-  }, [
+  useEffect(() => {}, [
     incompleteComplaints,
     totalAssignComplaints,
     totalInProgressComplaints,
     totalPendingComplaints
   ]);
-  const handleUpdate = (e: React.FormEvent) => {
+  const handleUpdate = async (e: FormEvent, complaintId: string) => {
     e.preventDefault();
+    setIsLoading(true);
+    try {
+      console.log("hi values change", complaintId, status);
+      var response = await updateComplaintStatus({
+        complaintId,
+        complaintStatus: status
+      }).unwrap();
+      if (response?.success) {
+        toast.success(response.message, { autoClose: 2000 });
+      } else {
+        toast.error(response.message, { autoClose: 2000 });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <Container className="">
@@ -98,7 +110,7 @@ const page = () => {
       <div className="bg-gray-100 rounded-xl p-4 gap-2 grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 justify-center items-center">
         <PieChart
           insideTitle="Your Toatal Tasks"
-          chartTitle="Total Assigned"
+          chartTitle="Assigned / Total"
           totalValue={complaints.length ?? 0}
           calculatedValue={totalAssignComplaints ?? 0}
         />
@@ -232,9 +244,9 @@ const page = () => {
                               <Label className="my-2">Status</Label>
                               <Select
                                 value={status}
-                                onValueChange={(value: complaintStatus) =>
-                                  setStatus(value)
-                                }
+                                onValueChange={(value: complaintStatus) => {
+                                  setStatus(value);
+                                }}
                               >
                                 <SelectTrigger className="w-full bg-white mt-1">
                                   <SelectValue placeholder="Select status" />
@@ -293,7 +305,7 @@ const page = () => {
                         </div>
                         <div className="flex justify-end pt-4">
                           <Button
-                            onClick={handleUpdate}
+                            onClick={(e) => handleUpdate(e, complaint._id)}
                             disabled={isLoading}
                             className="px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
                           >

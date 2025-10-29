@@ -2,9 +2,7 @@
 import DashboardCard from "@/components/Admin/DashboardCard";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { images } from "@/app/Images";
-import { useGetAllComplaintsQuery } from "@/features/apiCalls";
 import { useEffect } from "react";
-import Spinner from "@/components/Spinner/Spinner";
 import { useComplaintStore } from "@/features/store";
 import { complaintStatus } from "@/enums/complaintStatus";
 

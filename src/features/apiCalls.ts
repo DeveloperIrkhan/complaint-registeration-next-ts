@@ -78,7 +78,18 @@ export const createComplaintsAPI = createApi({
         body: JSON.stringify({ priority, assignedTo })
       }),
       invalidatesTags: ["complaints"]
-    })
+    }),
+    updateComplaintStatus: _builder.mutation<IUpdateComplaintResponse,
+      { complaintId: string, complaintStatus: string }>({
+        query: ({ complaintId, complaintStatus }) => ({
+          url: `/complaints/update-complaint-status/${complaintId}`,
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ complaintStatus })
+        }),
+        invalidatesTags: ["complaints"]
+
+      })
   })
 });
 
@@ -87,5 +98,6 @@ export const {
   useRegisterComplaintMutation,
   useGetComplaintByIdQuery,
   useUpdateComplaintMutation,
-  useSendComplaintEmailMutation
+  useSendComplaintEmailMutation,
+  useUpdateComplaintStatusMutation
 } = createComplaintsAPI;
