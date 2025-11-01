@@ -26,6 +26,9 @@ import { complaintPriority } from "@/enums/complaintPriority";
 import { Button } from "@/components/ui/button";
 import { useUpdateComplaintStatusMutation } from "@/features/apiCalls";
 import { toast } from "react-toastify";
+import { SenderType } from "@/enums/SenderType";
+import axios from "axios";
+import { Send } from "lucide-react";
 
 const page = () => {
   interface IUserLoginProps {
@@ -38,6 +41,7 @@ const page = () => {
   const { complaints } = useComplaintStore();
   const [relatedComplaints, setRelatedComplaints] = useState<IComplaint[]>();
   const [isLoading, setIsLoading] = useState(false);
+  const [inputComment, setInputComment] = useState<string>("");
   const [priority, setPriority] = useState<complaintPriority | "">("");
   const [status, setStatus] = useState<complaintStatus | "">("");
   const [updateComplaintStatus] = useUpdateComplaintStatusMutation();
@@ -96,6 +100,32 @@ const page = () => {
       setIsLoading(false);
     }
   };
+
+  const handleSend = async (complaintId: string) => {
+    if (!inputComment.trim()) return;
+
+    const sendingResponse = {
+      message: inputComment, // use a clear field name for backend
+      sender: SenderType.isTechnician,
+      complaintId
+    };
+
+    try {
+      setIsLoading(true);
+      const response = await axios.put(
+        `/api/complaints/update-comment/${complaintId}`,
+        sendingResponse
+      );
+      console.log(response.data.complaint.complaintStatusMessage);
+
+      setInputComment(""); // clear input after sending
+    } catch (error) {
+      console.error("Error sending comment:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Container className="">
       <div className="my-3">
@@ -294,6 +324,91 @@ const page = () => {
                                 </SelectContent>
                               </Select>
                             </div>
+                          </div>
+                        </div>
+                        <div className="bg-white rounded-xl shadow-md w-full max-w-2xl mx-auto p-4 flex flex-col">
+                          {/* Header */}
+                          <div className="pb-2 mb-3">
+                            <p className="text-xl font-semibold text-gray-800">
+                              Messages
+                            </p>
+                          </div>
+
+                          {/* Messages container */}
+                          <div className="flex flex-col gap-3 overflow-y-auto max-h-80 px-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+                            {complaint.complaintStatusMessage &&
+                            complaint.complaintStatusMessage.length > 0 ? (
+                              complaint.complaintStatusMessage.map(
+                                (comment, index) => {
+                                  const time =
+                                    comment.createdAt &&
+                                    new Date(
+                                      comment.createdAt
+                                    ).toLocaleString();
+                                  return comment.sender ===
+                                    SenderType.isAdmin ? (
+                                    // Admin Message (left side)
+                                    <div
+                                      key={index}
+                                      className="flex items-start"
+                                    >
+                                      <div className="bg-red-500 text-white px-4 py-2 rounded-tr-2xl rounded-bl-2xl shadow-sm max-w-[70%]">
+                                        <p className="text-sm font-medium">
+                                          {comment.message}
+                                        </p>
+                                        <span className="text-xs text-gray-200 block mt-1 text-right">
+                                          {time}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    // User Message (right side)
+                                    <div
+                                      key={index}
+                                      className="flex justify-end items-start"
+                                    >
+                                      <div className="bg-blue-600 text-white px-4 py-2 rounded-tl-2xl rounded-br-2xl shadow-sm max-w-[70%]">
+                                        <p className="text-sm font-medium">
+                                          {comment.message}
+                                        </p>
+                                        <span className="text-xs text-gray-200 block mt-1 text-right">
+                                          {time}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  );
+                                }
+                              )
+                            ) : (
+                              <p className="text-gray-500 text-center py-6 italic">
+                                No messages yet. Start the conversation!
+                              </p>
+                            )}
+                          </div>
+
+                          {/* Input section */}
+                          <div className="mt-4 flex items-center gap-3 border-t pt-3">
+                            <input
+                              value={inputComment}
+                              type="text"
+                              onChange={(e) => setInputComment(e.target.value)}
+                              onKeyDown={(e) =>
+                                e.key === "Enter" && handleSend(complaint._id)
+                              }
+                              className="flex-1 border border-gray-300 p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                              placeholder="Type your message..."
+                            />
+                            <button
+                              disabled={!inputComment.trim() || isLoading}
+                              onClick={() => handleSend(complaint._id)}
+                              className={`p-3 rounded-full text-white transition-all duration-200 ${
+                                inputComment.trim()
+                                  ? "bg-blue-600 hover:bg-blue-700"
+                                  : "bg-gray-300 cursor-not-allowed"
+                              }`}
+                            >
+                              <Send size={20} />
+                            </button>
                           </div>
                         </div>
                         <div className="flex gap-4 text-gray-400">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useComplaintStore } from "@/features/store";
-import { IComplaint } from "@/interfaces/interfaces";
+import { Icomments, IComplaint } from "@/interfaces/interfaces";
 import { complaintPriority } from "@/enums/complaintPriority";
 import { complaintStatus } from "@/enums/complaintStatus";
 import { useParams } from "next/navigation";
@@ -20,6 +20,9 @@ import { toast } from "react-toastify";
 import { useUserStore } from "@/features/UserStore";
 import Spinner from "@/components/Spinner/Spinner";
 import { useUpdateComplaintMutation } from "@/features/apiCalls";
+import { SenderType } from "@/enums/SenderType";
+import { Send } from "lucide-react";
+import axios from "axios";
 
 const Page = () => {
   const params = useParams();
@@ -32,6 +35,8 @@ const Page = () => {
   const [status, setStatus] = useState<complaintStatus | "">("");
   const [priority, setPriority] = useState<complaintPriority | "">("");
   const [assignedTo, setAssignedTo] = useState<string>("");
+  const [inputComment, setInputComment] = useState<string>("");
+  const [messages, setMessages] = useState<Icomments[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [complaintId, setCompalintId] = useState("");
   const [updateComplaint] = useUpdateComplaintMutation();
@@ -44,9 +49,44 @@ const Page = () => {
         setStatus(found.complaintStatus ?? "");
         setPriority(found.priority ?? "");
         setAssignedTo(found.assignedTo ?? "");
+        setMessages(found.complaintStatusMessage ?? []);
       }
     }
   }, [complaints, Id]);
+
+  useEffect(() => {}, [messages]);
+  const handleSend = async (complaintId: string) => {
+    if (!inputComment.trim()) return;
+
+    const sendingResponse = {
+      message: inputComment, // use a clear field name for backend
+      sender: SenderType.isAdmin,
+      complaintId
+    };
+
+    try {
+      console.log(
+        "sending data",
+        inputComment,
+        SenderType.isAdmin,
+        complaintId,
+        "sendingResponse",
+        sendingResponse
+      );
+      setIsLoading(true);
+      const response = await axios.put(
+        `/api/complaints/update-comment/${complaintId}`,
+        sendingResponse
+      );
+      setMessages(response.data.complaint.complaintStatusMessage);
+
+      setInputComment(""); // clear input after sending
+    } catch (error) {
+      console.error("Error sending comment:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     // console.log("users from store updated:", users);
@@ -210,6 +250,74 @@ const Page = () => {
               </div>
             </div>
           </div>
+          <div className="bg-white rounded-xl shadow-md w-full max-w-2xl mx-auto p-4 flex flex-col">
+            {/* Header */}
+            <div className="pb-2 mb-3">
+              <p className="text-xl font-semibold text-gray-800">Messages</p>
+            </div>
+
+            {/* Messages container */}
+            <div className="flex flex-col gap-3 overflow-y-auto max-h-80 px-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+              {messages && messages.length > 0 ? (
+                messages.map((comment, index) => {
+                  const time =
+                    comment.createdAt &&
+                    new Date(comment.createdAt).toLocaleString();
+                  return comment.sender === SenderType.isAdmin ? (
+                    // Admin Message (left side)
+                    <div key={index} className="flex items-start">
+                      <div className="bg-red-500 text-white px-4 py-2 rounded-tr-2xl rounded-bl-2xl shadow-sm max-w-[70%]">
+                        <p className="text-sm font-medium">{comment.message}</p>
+                        <span className="text-xs text-gray-200 block mt-1 text-right">
+                          {time}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    // User Message (right side)
+                    <div key={index} className="flex justify-end items-start">
+                      <div className="bg-blue-600 text-white px-4 py-2 rounded-tl-2xl rounded-br-2xl shadow-sm max-w-[70%]">
+                        <p className="text-sm font-medium">{comment.message}</p>
+                        <span className="text-xs text-gray-200 block mt-1 text-right">
+                          {time}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <p className="text-gray-500 text-center py-6 italic">
+                  No messages yet. Start the conversation!
+                </p>
+              )}
+            </div>
+
+            {/* Input section */}
+            <div className="mt-4 flex items-center gap-3 border-t pt-3">
+              <input
+                value={inputComment}
+                type="text"
+                onChange={(e) => setInputComment(e.target.value)}
+                onKeyDown={(e) =>
+                  e.key === "Enter" && handleSend(singleComplaint._id)
+                }
+                className="flex-1 border border-gray-300 p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                placeholder="Type your message..."
+              />
+              <button
+                disabled={!inputComment.trim() || isLoading}
+                onClick={() => handleSend(singleComplaint._id)}
+                className={`p-3 rounded-full text-white transition-all duration-200 ${
+                  inputComment.trim()
+                    ? "bg-blue-600 hover:bg-blue-700"
+                    : "bg-gray-300 cursor-not-allowed"
+                }`}
+              >
+                <Send size={20} />
+              </button>
+            </div>
+          </div>
+
           <div className="flex gap-4 text-gray-400">
             <Label className="font-bold uppercase">Registeration Time</Label>
             <p className="font-normal">{dateTime}</p>
@@ -219,7 +327,7 @@ const Page = () => {
             <Button
               onClick={handleUpdate}
               disabled={isLoading}
-              className="px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
+              className="px-6 py-2 rounded-lg  text-white  hoverEffect bg-red-400 hover:bg-red-600 transition"
             >
               {isLoading ? "Updating..." : "Update Changes"}
             </Button>

@@ -1,6 +1,7 @@
 import { complaintPriority } from "@/enums/complaintPriority";
 import { complaintStatus } from "@/enums/complaintStatus";
 import { ComplaintType } from "@/enums/ComplaintType/ComplaintType";
+import { SenderType } from "@/enums/SenderType";
 import { userRole } from "@/enums/userRole";
 import { Types } from "mongoose";
 
@@ -23,6 +24,17 @@ export interface IComplaintModels {
   updatedAt?: Date;
 }
 
+
+
+export interface Icomments {
+  message: string,
+  sender: SenderType,
+  createAt?: string,
+  updateAt?: string,
+  updatedAt?: Date;
+  createdAt?: Date
+
+}
 export interface IComplaint {
   _id: string;
   name: string;
@@ -35,6 +47,7 @@ export interface IComplaint {
   assignedTo?: string | null;
   priority?: complaintPriority;
   complaintStatus?: complaintStatus;
+  complaintStatusMessage?: Icomments[] | null,
   registrationTime: string;
   completionTime?: string | null;
   updatedAt?: string | null;
