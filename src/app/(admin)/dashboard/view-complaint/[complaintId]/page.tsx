@@ -257,7 +257,7 @@ const Page = () => {
             </div>
 
             {/* Messages container */}
-            <div className="flex flex-col gap-3 overflow-y-auto max-h-80 px-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+            <div className="flex flex-col gap-3 py-3 shadow-md overflow-y-auto max-h-80 px-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
               {messages && messages.length > 0 ? (
                 messages.map((comment, index) => {
                   const time =
@@ -293,7 +293,7 @@ const Page = () => {
             </div>
 
             {/* Input section */}
-            <div className="mt-4 flex items-center gap-3 border-t pt-3">
+            <div className="mt-4 flex items-center gap-3 pt-3">
               <input
                 value={inputComment}
                 type="text"

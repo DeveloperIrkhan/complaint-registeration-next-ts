@@ -29,6 +29,7 @@ import { toast } from "react-toastify";
 import { SenderType } from "@/enums/SenderType";
 import axios from "axios";
 import { Send } from "lucide-react";
+import Spinner from "@/components/Spinner/Spinner";
 
 const page = () => {
   interface IUserLoginProps {
@@ -123,11 +124,13 @@ const page = () => {
       console.error("Error sending comment:", error);
     } finally {
       setIsLoading(false);
+      window.location.reload();
     }
   };
 
   return (
     <Container className="">
+      {isLoading && <Spinner/>}
       <div className="my-3">
         <SectionHeading
           title="Dashboard"
@@ -350,9 +353,10 @@ const page = () => {
                                     // Admin Message (left side)
                                     <div
                                       key={index}
-                                      className="flex items-start"
+                                      className="flex justify-end items-start"
                                     >
-                                      <div className="bg-red-500 text-white px-4 py-2 rounded-tr-2xl rounded-bl-2xl shadow-sm max-w-[70%]">
+                                      <div className="bg-red-500 text-white px-4 py-2 rounded-tr-2xl rounded-bl-2xl 
+                                      shadow-sm max-w-[70%]">
                                         <p className="text-sm font-medium">
                                           {comment.message}
                                         </p>
@@ -365,7 +369,7 @@ const page = () => {
                                     // User Message (right side)
                                     <div
                                       key={index}
-                                      className="flex justify-end items-start"
+                                      className="flex items-start"
                                     >
                                       <div className="bg-blue-600 text-white px-4 py-2 rounded-tl-2xl rounded-br-2xl shadow-sm max-w-[70%]">
                                         <p className="text-sm font-medium">
@@ -387,7 +391,7 @@ const page = () => {
                           </div>
 
                           {/* Input section */}
-                          <div className="mt-4 flex items-center gap-3 border-t pt-3">
+                          <div className="mt-4 flex items-center gap-3 pt-3">
                             <input
                               value={inputComment}
                               type="text"
@@ -422,7 +426,7 @@ const page = () => {
                           <Button
                             onClick={(e) => handleUpdate(e, complaint._id)}
                             disabled={isLoading}
-                            className="px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
+                            className="px-6 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition"
                           >
                             {isLoading ? "Updating..." : "Update Changes"}
                           </Button>
