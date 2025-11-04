@@ -1,4 +1,6 @@
-import { IComplaint, IUser } from "@/interfaces/interfaces";
+import { complaintPriority } from "@/enums/complaintPriority";
+import { SenderType } from "@/enums/SenderType";
+import { IComplaint, IMessages } from "@/interfaces/interfaces";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface IComplainstResponse {
@@ -16,6 +18,15 @@ interface IComplaintResponse {
   success?: boolean;
   registeredComplaint?: IComplaint;
 }
+
+interface IUpdateStatus {
+  success: boolean;
+  conversation: IMessages;
+  message: string;
+}
+
+
+
 export const createComplaintsAPI = createApi({
   reducerPath: "complaintsApi",
   baseQuery: fetchBaseQuery({
@@ -30,6 +41,7 @@ export const createComplaintsAPI = createApi({
       }),
       providesTags: ["complaints"]
     }),
+
     registerComplaint: _builder.mutation<
       {
         success: boolean,
@@ -46,6 +58,7 @@ export const createComplaintsAPI = createApi({
         invalidatesTags: ["complaints"]
       }
       ),
+
     sendComplaintEmail: _builder.mutation<
       { success: boolean; message: string },
       { userEmail: string; emailType: string; trackingId: string }
@@ -59,14 +72,13 @@ export const createComplaintsAPI = createApi({
     }),
     getComplaintById: _builder.query<
       IComplaintResponse,
-      { trackingId: string }
-    >({
-      query: ({ trackingId }) => ({
-        url: `/complaints/get-complaint/${trackingId}`,
-        method: "GET"
+      { trackingId: string }>({
+        query: ({ trackingId }) => ({
+          url: `/complaints/get-complaint/${trackingId}`,
+          method: "GET"
+        }),
+        providesTags: ["complaints"]
       }),
-      providesTags: ["complaints"]
-    }),
     updateComplaint: _builder.mutation<
       IUpdateComplaintResponse,
       { complaintId: string; priority: string; assignedTo: string }
@@ -79,6 +91,7 @@ export const createComplaintsAPI = createApi({
       }),
       invalidatesTags: ["complaints"]
     }),
+
     updateComplaintStatus: _builder.mutation<IUpdateComplaintResponse,
       { complaintId: string, complaintStatus: string }>({
         query: ({ complaintId, complaintStatus }) => ({
@@ -88,8 +101,30 @@ export const createComplaintsAPI = createApi({
           body: JSON.stringify({ complaintStatus })
         }),
         invalidatesTags: ["complaints"]
+      }),
 
-      })
+    sendMessage: _builder.mutation<IUpdateStatus,
+      {
+        message: string,
+        sender: SenderType,
+        complaintId: string
+      }>({
+        query: ({ complaintId, message, sender }) => ({
+          url: `/message/send-recieve/${complaintId}`,
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ complaintId, message, sender })
+        }),
+        invalidatesTags: ["complaints"]
+      }),
+    getAllMessages: _builder.query<IUpdateStatus,
+      { complaintId: string }>({
+        query: ({ complaintId }) => ({
+          url: `/message/get-all-message/${complaintId}`,
+          method: "GET",
+        }),
+        providesTags: ["complaints"],
+      }),
   })
 });
 
@@ -99,5 +134,7 @@ export const {
   useGetComplaintByIdQuery,
   useUpdateComplaintMutation,
   useSendComplaintEmailMutation,
-  useUpdateComplaintStatusMutation
+  useUpdateComplaintStatusMutation,
+  useSendMessageMutation,
+  useGetAllMessagesQuery
 } = createComplaintsAPI;

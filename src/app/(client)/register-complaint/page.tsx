@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import {
   useRegisterComplaintMutation,
   useSendComplaintEmailMutation
-} from "@/features/apiCalls";
+} from "@/features/ComplaijntAPI";
 import { ComplaintType } from "@/enums/ComplaintType/ComplaintType";
 import {
   Select,

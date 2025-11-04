@@ -1,5 +1,8 @@
 "use client";
-import { useGetAllComplaintsQuery } from "@/features/apiCalls";
+import {
+  useGetAllComplaintsQuery,
+  useGetAllMessagesQuery
+} from "@/features/ComplaijntAPI";
 import { useComplaintStore } from "@/features/store";
 import React, { useEffect } from "react";
 import Spinner from "./Spinner/Spinner";

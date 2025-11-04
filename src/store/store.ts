@@ -1,5 +1,5 @@
 import { userApi } from "@/features/UserAPI";
-import { createComplaintsAPI } from "./../features/apiCalls";
+import { createComplaintsAPI } from "../features/ComplaijntAPI";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({

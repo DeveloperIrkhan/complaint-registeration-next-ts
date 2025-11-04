@@ -1,7 +1,7 @@
 "use client";
 import Spinner from "@/components/Spinner/Spinner";
 import { complaintStatus } from "@/enums/complaintStatus";
-import { useGetComplaintByIdQuery } from "@/features/apiCalls";
+import { useGetComplaintByIdQuery } from "@/features/ComplaijntAPI";
 import { useGetAllUserQuery } from "@/features/UserAPI";
 import { useUserStore } from "@/features/UserStore";
 import { IComplaint } from "@/interfaces/interfaces";

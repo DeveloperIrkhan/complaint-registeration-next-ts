@@ -26,15 +26,23 @@ export interface IComplaintModels {
 
 
 
-export interface Icomments {
+export interface IMessage {
   message: string,
   sender: SenderType,
-  createAt?: string,
-  updateAt?: string,
+  isRead: boolean
   updatedAt?: Date;
   createdAt?: Date
-
 }
+
+
+export interface IMessages {
+  complaintId: string,
+  complaintMessage?: IMessage[]
+  updatedAt: Date;
+  createdAt: Date;
+}
+
+
 export interface IComplaint {
   _id: string;
   name: string;
@@ -47,7 +55,6 @@ export interface IComplaint {
   assignedTo?: string | null;
   priority?: complaintPriority;
   complaintStatus?: complaintStatus;
-  complaintStatusMessage?: Icomments[] | null,
   registrationTime: string;
   completionTime?: string | null;
   updatedAt?: string | null;

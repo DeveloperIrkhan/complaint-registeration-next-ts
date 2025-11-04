@@ -3,19 +3,6 @@ import { complaintStatus } from "../enums/complaintStatus";
 import { IComplaintModels } from "@/interfaces/interfaces";
 import { complaintPriority } from "@/enums/complaintPriority";
 import { ComplaintType } from "@/enums/ComplaintType/ComplaintType";
-import { SenderType } from "@/enums/SenderType";
-
-
-
-const commentSchema = new mongoose.Schema({
-  message: { type: String, },
-  sender: {
-    type: String,
-    enum: Object.values(SenderType),
-    required: true
-  },
-}, { timestamps: true }
-)
 
 const complaintSchema = new mongoose.Schema(
   {
@@ -49,9 +36,7 @@ const complaintSchema = new mongoose.Schema(
       enum: Object.values(complaintStatus),
       default: complaintStatus.incomplete
     },
-    complaintStatusMessage: {
-      type: [commentSchema], default: []
-    },
+   
     registrationTime: { type: Date, default: Date.now },
     completionTime: { type: Date, default: null }
   },

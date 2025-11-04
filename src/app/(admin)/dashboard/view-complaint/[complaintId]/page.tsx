@@ -1,7 +1,7 @@
 "use client";
 
 import { useComplaintStore } from "@/features/store";
-import { Icomments, IComplaint } from "@/interfaces/interfaces";
+import { IComplaint, IMessages } from "@/interfaces/interfaces";
 import { complaintPriority } from "@/enums/complaintPriority";
 import { complaintStatus } from "@/enums/complaintStatus";
 import { useParams } from "next/navigation";
@@ -19,10 +19,15 @@ import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { useUserStore } from "@/features/UserStore";
 import Spinner from "@/components/Spinner/Spinner";
-import { useUpdateComplaintMutation } from "@/features/apiCalls";
+import {
+  useGetAllMessagesQuery,
+  useSendMessageMutation,
+  useUpdateComplaintMutation
+} from "@/features/ComplaijntAPI";
 import { SenderType } from "@/enums/SenderType";
 import { Send } from "lucide-react";
 import axios from "axios";
+import Conversation from "@/components/Admin/Conversation";
 
 const Page = () => {
   const params = useParams();
@@ -36,55 +41,50 @@ const Page = () => {
   const [priority, setPriority] = useState<complaintPriority | "">("");
   const [assignedTo, setAssignedTo] = useState<string>("");
   const [inputComment, setInputComment] = useState<string>("");
-  const [messages, setMessages] = useState<Icomments[]>([]);
+  const [messages, setMessages] = useState<IMessages>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [complaintId, setCompalintId] = useState("");
   const [updateComplaint] = useUpdateComplaintMutation();
+  const [sendMessage] = useSendMessageMutation();
+  const { data, isFetching } = useGetAllMessagesQuery({
+    complaintId: Id
+  });
   useEffect(() => {
     if (complaints.length > 0 && Id) {
       const found = complaints.find((item) => item._id === Id);
+      // const foundMessages = messages.find((item)=? Item._id === Id)
       if (found) {
         setCompalintId(found._id);
         setSingleComplaint(found);
         setStatus(found.complaintStatus ?? "");
         setPriority(found.priority ?? "");
         setAssignedTo(found.assignedTo ?? "");
-        setMessages(found.complaintStatusMessage ?? []);
+        // setMessages(found.foundMessages ?? []);
       }
     }
   }, [complaints, Id]);
-
-  useEffect(() => {}, [messages]);
+  useEffect(() => {
+    if (data?.conversation) {
+      setMessages(data?.conversation);
+    }
+  }, [data, messages]);
   const handleSend = async (complaintId: string) => {
+    setIsLoading(true);
     if (!inputComment.trim()) return;
-
-    const sendingResponse = {
-      message: inputComment, // use a clear field name for backend
-      sender: SenderType.isAdmin,
-      complaintId
-    };
-
     try {
-      console.log(
-        "sending data",
-        inputComment,
-        SenderType.isAdmin,
+      const response = await sendMessage({
         complaintId,
-        "sendingResponse",
-        sendingResponse
-      );
-      setIsLoading(true);
-      const response = await axios.put(
-        `/api/complaints/update-comment/${complaintId}`,
-        sendingResponse
-      );
-      setMessages(response.data.complaint.complaintStatusMessage);
-
-      setInputComment(""); // clear input after sending
+        message: inputComment,
+        sender: SenderType.isAdmin
+      }).unwrap();
+      console.log(response);
+      setMessages(response?.conversation ?? []);
+      toast.success(response.message);
     } catch (error) {
-      console.error("Error sending comment:", error);
+      console.error("Error sending message:", error);
     } finally {
       setIsLoading(false);
+      setInputComment("");
     }
   };
 
@@ -257,40 +257,7 @@ const Page = () => {
             </div>
 
             {/* Messages container */}
-            <div className="flex flex-col gap-3 py-3 shadow-md overflow-y-auto max-h-80 px-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-              {messages && messages.length > 0 ? (
-                messages.map((comment, index) => {
-                  const time =
-                    comment.createdAt &&
-                    new Date(comment.createdAt).toLocaleString();
-                  return comment.sender === SenderType.isAdmin ? (
-                    // Admin Message (left side)
-                    <div key={index} className="flex items-start">
-                      <div className="bg-red-500 text-white px-4 py-2 rounded-tr-2xl rounded-bl-2xl shadow-sm max-w-[70%]">
-                        <p className="text-sm font-medium">{comment.message}</p>
-                        <span className="text-xs text-gray-200 block mt-1 text-right">
-                          {time}
-                        </span>
-                      </div>
-                    </div>
-                  ) : (
-                    // User Message (right side)
-                    <div key={index} className="flex justify-end items-start">
-                      <div className="bg-blue-600 text-white px-4 py-2 rounded-tl-2xl rounded-br-2xl shadow-sm max-w-[70%]">
-                        <p className="text-sm font-medium">{comment.message}</p>
-                        <span className="text-xs text-gray-200 block mt-1 text-right">
-                          {time}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })
-              ) : (
-                <p className="text-gray-500 text-center py-6 italic">
-                  No messages yet. Start the conversation!
-                </p>
-              )}
-            </div>
+            <Conversation messages={messages} />
 
             {/* Input section */}
             <div className="mt-4 flex items-center gap-3 pt-3">
