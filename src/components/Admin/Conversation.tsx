@@ -3,7 +3,7 @@ import { IMessages } from "@/interfaces/interfaces";
 import React, { useEffect } from "react";
 
 interface IMessagesProps {
-  messages: IMessages;
+  messages: IMessages | null;
 }
 
 const Conversation = ({ messages }: IMessagesProps) => {

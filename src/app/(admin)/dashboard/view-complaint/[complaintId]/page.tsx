@@ -41,7 +41,7 @@ const Page = () => {
   const [priority, setPriority] = useState<complaintPriority | "">("");
   const [assignedTo, setAssignedTo] = useState<string>("");
   const [inputComment, setInputComment] = useState<string>("");
-  const [messages, setMessages] = useState<IMessages>(null);
+  const [messages, setMessages] = useState<IMessages | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [complaintId, setCompalintId] = useState("");
   const [updateComplaint] = useUpdateComplaintMutation();
@@ -67,7 +67,7 @@ const Page = () => {
     if (data?.conversation) {
       setMessages(data?.conversation);
     }
-  }, [data, messages]);
+  }, [data]);
   const handleSend = async (complaintId: string) => {
     setIsLoading(true);
     if (!inputComment.trim()) return;
@@ -78,7 +78,7 @@ const Page = () => {
         sender: SenderType.isAdmin
       }).unwrap();
       console.log(response);
-      setMessages(response?.conversation ?? []);
+      setMessages(response?.conversation ?? null);
       toast.success(response.message);
     } catch (error) {
       console.error("Error sending message:", error);
@@ -257,7 +257,9 @@ const Page = () => {
             </div>
 
             {/* Messages container */}
-            <Conversation messages={messages} />
+            {messages && (
+              <Conversation messages={(messages as IMessages) || null} />
+            )}
 
             {/* Input section */}
             <div className="mt-4 flex items-center gap-3 pt-3">
