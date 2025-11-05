@@ -58,7 +58,7 @@ const Page = () => {
     : -1;
   useEffect(() => {}, [complaint]);
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gradient-to-tl to-red-500 from-orange-300 px-2 sm:px-4">
+    <div className="min-h-screen flex justify-center items-center bg-custom-radial px-2 sm:px-4">
       {(isLoading || isFetching) && <Spinner />}
       <div className="w-full max-w-md sm:max-w-xl bg-white rounded-2xl shadow-lg p-4 sm:p-6">
         <h1 className="text-xl sm:text-2xl font-bold text-center text-red-500 mb-4">

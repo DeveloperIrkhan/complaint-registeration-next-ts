@@ -7,7 +7,7 @@ const Page = () => {
   const [trackingId, setTrackingId] = useState("");
   return (
     <div className="h-screen">
-      <div className="w-full h-full flex justify-center items-center bg-linear-to-tl to-red-500 from-orange-300">
+      <div className="w-full h-full flex justify-center items-center bg-custom-radial p-2">
         <div className="max-w-xl w-full bg-white rounded-2xl shadow-lg p-6">
           <h1 className="text-2xl font-bold text-center text-red-500 mb-4">
             Complaint Tracking
