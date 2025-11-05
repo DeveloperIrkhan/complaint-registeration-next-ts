@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 import { images } from "../Images";
-import Link from "next/link";
+import MainPageButtons from "@/components/MainPageButtons";
 
 const page = () => {
   useEffect(() => {
@@ -12,7 +12,7 @@ const page = () => {
     });
   }, []);
   return (
-    <div className="min-h-screen flex flex-col md:flex-row  bg-custom-linear p-4 md:p-0">
+    <div className="min-h-screen flex flex-col md:flex-row  bg-custom-linear md:p-0">
       <div className="flex-1 flex items-center justify-center px-6 md:px-12">
         <div className="w-full max-w-sm">
           <div className="text-center my-10">
@@ -34,28 +34,16 @@ const page = () => {
             </p>
           </div>
           <div className="cursor-pointer flex justify-center items-center gap-3">
-            <Link href={"/register-complaint"}>
-              <div className="flex flex-col justify-center items-center custom-shadow">
-                <Image
-                  src={images.registeringComplaint}
-                  alt=""
-                  height={80}
-                  width={80}
-                />
-                <p className="font-bold text-sm">Register Complaint</p>
-              </div>
-            </Link>
-            <Link href={"/complaint-tracking"}>
-              <div className="flex flex-col justify-center items-center custom-shadow">
-                <Image
-                  src={images.trackingComplaint}
-                  alt=""
-                  height={80}
-                  width={80}
-                />
-                <p className="font-bold text-sm">Track Complaint</p>
-              </div>
-            </Link>
+            <MainPageButtons
+              label="register complaint"
+              hrefTo="/register-complaint"
+              ImageSrc={images.registeringComplaint}
+            />
+            <MainPageButtons
+              label="complaint tracking"
+              hrefTo="/complaint-tracking"
+              ImageSrc={images.trackingComplaint}
+            />
           </div>
         </div>
       </div>

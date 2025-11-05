@@ -166,13 +166,5 @@
   .bg-custom-radial {
     @apply bg-radial from-5% from-amber-300 to-red-700;
   }
-  .custom-shadow {
-    @apply border-2 border-red-400 hover:border-red-500 text-gray-700 hover:text-red-500 
-             bg-gray-50 shadow-md space-y-3 p-4 h-44 w-44 rounded-2xl
-              duration-300 hover:translate-y-2
-              hover:bg-red-100 
-              hover:shadow-[0_10px_25px_rgba(255,50,50,0.7)]
 
-              /* hover:shadow-[0_10px_25px_rgba(200,0,0,0.8)] */;
-  }
 }
