@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { ToastContainer } from "react-toastify";
 import React from "react";
-import PageTitle from "../../components/ui/PageTitle";
-import Container from "../../components/ui/Container";
 import { images } from "../Images";
 
 export const metadata: Metadata = {
@@ -21,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <div className="flex w-full flex-col min-h-screen">
-      <main className="flex-1">
+      <main className="flex-1 font-mona-sans">
         <ToastContainer position="top-center" autoClose={3000} />
         {children}
       </main>

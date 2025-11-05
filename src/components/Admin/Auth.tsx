@@ -99,7 +99,8 @@ const Auth = () => {
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {loading && <Spinner />}
-      <div className="flex-1 flex items-center justify-center bg-gradient-to-t to-sky-100 from-indigo-200 md:bg-white px-6 md:px-12">
+      <div className="flex-1 flex items-center justify-center 
+      bg-custom-linear md:bg-white px-6 md:px-12">
         <div className="w-full max-w-sm">
           <SectionHeading
             title={`Admin ${currentState === "signup" ? "Signup" : "Login"}`}
@@ -186,9 +187,9 @@ const Auth = () => {
 
             <CustomButton
               type="submit"
-              buttonColor="bg-sky-500"
-              buttonHoverColor="bg-indigo-600"
-              className="w-full text-white rounded-lg font-semibold transition"
+              buttonColor="bg-red-500"
+              buttonHoverColor="bg-white"
+              className="w-full text-white hover:text-red-500 border-2 border-red-500 rounded-lg font-semibold transition"
               buttonText={currentState === "signup" ? "Sign up" : "Login"}
             />
           </form>
@@ -225,8 +226,8 @@ const Auth = () => {
       </div>
 
       <div
-        className="hidden flex-1 
-      bg-gradient-to-tl to-indigo-500 from-sky-300 md:flex items-center justify-center p-6 relative"
+        className="hidden flex-1 bg-custom-radial
+      md:flex items-center justify-center p-6 relative"
       >
         <div className="z-10 text-center h-full flex items-center">
           <Image
@@ -234,7 +235,7 @@ const Auth = () => {
             alt="Auth illustrations"
             width={350}
             height={350}
-            className="mx-auto h-9/12 shadow-2xl rounded-xl"
+            className="mx-auto h-9/12 shadow-2xs rounded-xl"
           />
         </div>
       </div>

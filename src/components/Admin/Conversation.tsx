@@ -21,7 +21,7 @@ const Conversation = ({ messages }: IMessagesProps) => {
 
           return messageBlock.sender === SenderType.isAdmin ? (
             // Admin Message (left side)
-            <div key={blockIndex} className="flex items-start">
+            <div key={blockIndex} className="flex justify-start items-start">
               <div className="bg-red-500 text-white px-4 py-2 rounded-tr-2xl rounded-bl-2xl shadow-sm max-w-[70%]">
                 <p className="text-sm font-medium">{messageBlock.message}</p>
                 <span className="text-xs text-gray-200 block mt-1 text-right">

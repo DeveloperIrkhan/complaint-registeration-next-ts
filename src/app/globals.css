@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
-
 
 @custom-variant dark (&:is(.dark *));
 
@@ -50,6 +50,7 @@
 
 @theme inline {
   --font-Jost: "Jost", sans-serif;
+  --font-mona-sans: "Mona Sans", sans-serif;
   --color-primary-color: #2563eb;
   --color-secondry-color: #10b981;
   --color-accent-color: #1d4ed8;
@@ -172,8 +173,6 @@
               hover:bg-red-100 
               hover:shadow-[0_10px_25px_rgba(255,50,50,0.7)]
 
-              /* hover:shadow-[0_10px_25px_rgba(200,0,0,0.8)] */
-
-;
+              /* hover:shadow-[0_10px_25px_rgba(200,0,0,0.8)] */;
   }
 }

@@ -28,30 +28,19 @@ const Page = () => {
   }, [userData]);
 
   useEffect(() => {
-    if (!trackingId) {
-      toast.error("Enter a valid tracking ID");
-      return;
-    }
-    if (isLoading || isFetching) return; // wait until data is ready
+    if (!trackingId || !data?.success) return;
+    if (isLoading || isFetching) return;
 
-    try {
-      if (data?.success) {
-        setComplaint(data?.registeredComplaint ?? null);
-        const assignedUser = users.find(
-          (x) => x._id === data?.registeredComplaint?.assignedTo
-        );
-        setUsername(assignedUser?.name || "");
-      } else if (data) {
-        toast.error(data?.message || "Complaint not found!");
-        setComplaint(null);
-      }
-    } catch (error: any) {
-      toast.error("An unexpected error occurred!");
-      setComplaint(null);
-      console.error("Error fetching complaint:", error);
-    }
-  }, [trackingId, data, isLoading, isFetching]);
+    setComplaint(data.registeredComplaint ?? null);
+
+    const assignedUser = users.find(
+      (x) => x._id === data.registeredComplaint?.assignedTo
+    );
+    setUsername(assignedUser?.name || "Technician");
+  }, [trackingId, data, isLoading, isFetching, users]);
+
   useEffect(() => {
+    console.log(username);
   }, [username]);
 
   const statuses = [
@@ -80,7 +69,7 @@ const Page = () => {
               <h2 className="text-lg font-semibold mb-4 text-gray-700">
                 Status:{" "}
                 <span className="text-red-600 capitalize">
-                  {complaint.complaintStatus}
+                  {complaint.complaintStatus?.replace("_", " ")}
                 </span>
               </h2>
               {/* Progress Tracker */}

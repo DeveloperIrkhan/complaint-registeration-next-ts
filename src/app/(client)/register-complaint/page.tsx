@@ -88,9 +88,6 @@ const page = () => {
               {complaintId === "" || complaint === undefined ? (
                 <>
                   <form onSubmit={handleSubmitChanges}>
-                    <p className="text-center text-xl font-Jost mt-3 mb-6 font-semibold tracking-wider">
-                      Complaint Registeration Form
-                    </p>
                     <div className="space-y-3">
                       <div className="flex gap-3 justify-around">
                         <div className="flex gap-y-2 flex-col">
@@ -205,14 +202,14 @@ const page = () => {
                       <button
                         type="submit"
                         className="group relative w-full overflow-hidden h-10 px-4 py-1 
-                      rounded-md text-white text-sm font-medium 
+                      rounded-md text-white hover:text-red-500 text-sm font-medium 
                       flex items-center justify-center gap-2 
-                      bg-red-300"
+                      bg-red-500 border-2 border-red-500"
                       >
                         <span
                           className="absolute inset-0  transform -translate-x-full
                          group-hover:translate-x-0 transition-transform duration-500
-                          ease-out z-0 bg-red-800"
+                          ease-out z-0 bg-white"
                         ></span>
                         <span className="relative z-10 flex items-center gap-2">
                           Register Complaint
@@ -248,6 +245,11 @@ const page = () => {
               }}
               className="relative w-full h-full bg-cover bg-center mx-auto"
             >
+              <p className="z-50 absolute left-0 bottom-16 uppercase
+               right-0 text-center text-xl font-mona-sans font-bold mt-2 mb-3 tracking-wider
+               text-blue-900 text-shadow-blue-900">
+                Complaint Registeration Form
+              </p>
               <Image
                 src={images.customerCarePNG}
                 alt="shopping-cart"
