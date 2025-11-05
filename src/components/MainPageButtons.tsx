@@ -39,7 +39,7 @@ const MainPageButtons = ({
         className="
         font-semibold text-gray-700 text-center mt-2 
         text-[10px] sm:text-[12px] md:text-[16px] 
-        hover:text-red-500 transition-colors duration-300
+        hover:text-red-500 transition-colors capitalize duration-300
       "
       >
         {label}
