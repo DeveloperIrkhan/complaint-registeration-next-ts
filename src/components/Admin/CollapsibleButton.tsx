@@ -13,7 +13,7 @@ const CollapsibleButton = ({ title, children }: CollapsibleButtonProps) => {
     <div className="group">
       <div
         className="flex items-center justify-between cursor-pointer px-4 py-2 h-16
-         text-white border-b bg-main-brand-color group-hover:bg-accent-color hoverEffect"
+         text-white border-b bg-red-600 group-hover:bg-red-800 hoverEffect"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span>{title}</span>

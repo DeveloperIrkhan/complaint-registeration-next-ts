@@ -48,13 +48,13 @@ const DashboardCard = ({
     >
       <div className="flex items-center gap-4">
         {/* Left Side - Icon */}
-        <div className="flex-shrink-0">
+        <div className="flex">
           <Image src={Icon} width={60} height={60} alt="icon" />
         </div>
 
         {/* Right Side - Text Content */}
-        <div className="flex flex-col text-center gap-2">
-          <motion.h2 className="text-xl md:text-2xl font-bold group-hover:text-white">
+        <div className="flex flex-col text-start gap-2">
+          <motion.h2 className="text-xl md:text-3xl font-bold group-hover:text-white">
             {displayNumber}
           </motion.h2>
           <h2 className="md:text-xl font-medium group-hover:text-white">

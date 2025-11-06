@@ -45,13 +45,13 @@ const SideBarComponent = () => {
             <CollapsibleButton title="Manage Complaints">
               <Link
                 href="/dashboard/manage-complaints"
-                className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-accent-color/20"
+                className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
               >
                 <Icon iconName={images.complainticon} /> Show All Complaints
               </Link>
               <Link
                 href="/dashboard/edit-product"
-                className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-accent-color/20"
+                className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
               >
                 <Icon iconName={images.workingicon} /> Edit Coompaint
               </Link>
@@ -59,19 +59,19 @@ const SideBarComponent = () => {
             <CollapsibleButton title="Manage Team">
               <Link
                 href="/products/add-product"
-                className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-accent-color/20"
+                className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
               >
                 <Icon iconName={images.addnewicon} /> Add New Member
               </Link>
               <Link
                 href="/products/edit-product"
-                className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-accent-color/20"
+                className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
               >
                 <Icon iconName={images.complainticon} /> Edit Member
               </Link>
               <Link
                 href="/products"
-                className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-accent-color/20"
+                className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
               >
                 <Icon iconName={images.mangetemicon} /> Show Members
               </Link>
@@ -94,8 +94,8 @@ const SideBarComponent = () => {
       </div>
 
       {/* ==================== DESKTOP SIDEBAR ==================== */}
-      <div className="hidden md:block min-w-72 border md:border-l-2">
-        <header className="bg-white border-b shadow-md flex justify-between items-center">
+      <div className="hidden md:block min-w-72">
+        <header className="bg-white border-b p-1 shadow-md flex justify-between items-center">
           <div className="flex items-center gap-3">
             <Image
               src={images.Logo}
@@ -104,7 +104,11 @@ const SideBarComponent = () => {
               width={75}
               alt="logo"
             />
-            <h2 className="hidden md:flex text-xl font-extrabold font-Jost text-main-brand-color tracking-[2px]">
+            <h2 className="hidden md:flex text-xl 
+             text-main-brand-color
+             my-2 md:my-3 font-bold font-mona-sans 
+             tracking-wider text-red capitalize text-[15px] md:text-2xl
+             ">
               PRCS
             </h2>
           </div>
@@ -117,13 +121,13 @@ const SideBarComponent = () => {
           <CollapsibleButton title="Manage Complaints">
             <Link
               href="/dashboard/manage-complaints"
-              className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-accent-color/20"
+              className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
             >
               <Icon iconName={images.complainticon} /> Show All Complaints
             </Link>
             <Link
               href="/dashboard/edit-complaints"
-              className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-accent-color/20"
+              className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
             >
               <Icon iconName={images.workingicon} /> Edit Coompaint
             </Link>
@@ -131,19 +135,19 @@ const SideBarComponent = () => {
           <CollapsibleButton title="Manage Team">
             <Link
               href="/products/add-product"
-              className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-accent-color/20"
+              className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
             >
               <Icon iconName={images.addnewicon} /> Add New Member
             </Link>
             <Link
               href="/products/edit-product"
-              className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-accent-color/20"
+              className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
             >
               <Icon iconName={images.complainticon} /> Edit Member
             </Link>
             <Link
               href="/products"
-              className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-accent-color/20"
+              className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
             >
               <Icon iconName={images.mangetemicon} /> Show Members
             </Link>

@@ -6,7 +6,7 @@ interface IProps {
   children: React.ReactNode;
 }
 const PageTitle = ({ className, children }: IProps) => {
-  return <section className={cn("my-2 md:my-3 font-bold font-Jost tracking-wider text-red capitalize text-[15px] md:text-2xl", className)}>{children}</section>;
+  return <section className={cn("my-2 md:my-3 font-bold font-mona-sans tracking-wider text-red capitalize text-[15px] md:text-2xl", className)}>{children}</section>;
 };
 
 export default PageTitle;
