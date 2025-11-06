@@ -6,7 +6,6 @@ import { useComplaintStore } from "@/features/store";
 import { complaintStatus } from "@/enums/complaintStatus";
 
 const Page = () => {
-
   const { complaints } = useComplaintStore();
   useEffect(() => {
     console.log("complaints", complaints);
@@ -30,6 +29,7 @@ const Page = () => {
     <>
       <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 my-3 mx-2">
         <DashboardCard
+          status={"all"}
           Icon={images.managecomplainticon}
           className="bg-blue-100 text-blue-800  hoverEffect hover:shadow-lg transition hover:bg-blue-400"
           totalNumber={Total}
@@ -41,17 +41,20 @@ const Page = () => {
           className="hoverEffect hover:shadow-lg transition bg-green-100 text-green-800 hover:bg-green-300"
           totalNumber={Completed}
           heading="Completed"
+          status={complaintStatus.closed}
           text="Completed Complaints"
         />
         <DashboardCard
           Icon={images.processingicon}
           className="hoverEffect hover:shadow-lg transition bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
           totalNumber={Processing}
+          status={complaintStatus.in_progress}
           heading="Processing"
           text="Under Processing"
         />
         <DashboardCard
           Icon={images.pending}
+          status={complaintStatus.pending}
           className="bg-purple-100 text-purple-800 hoverEffect hover:shadow-lg transition hover:bg-purple-300"
           totalNumber={Pending}
           heading="Pending"

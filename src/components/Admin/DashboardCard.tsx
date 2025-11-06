@@ -4,12 +4,14 @@ import React from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
 
 interface IDashboardCardProps {
   heading: string;
   text: string;
   totalNumber: number;
   className?: string;
+  status?: string;
   Icon: string | StaticImageData;
 }
 const DashboardCard = ({
@@ -17,7 +19,8 @@ const DashboardCard = ({
   text,
   totalNumber,
   className,
-  Icon
+  Icon,
+  status
 }: IDashboardCardProps) => {
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.floor(latest));
@@ -40,7 +43,8 @@ const DashboardCard = ({
   }, [totalNumber]);
 
   return (
-    <div
+    <Link
+      href={`dashboard/view-complaints/${status}`}
       className={cn(
         "bg-gray-400 group cursor-pointer flex shadow-md flex-col justify-center items-center rounded-xl px-2 py-4",
         className
@@ -65,7 +69,7 @@ const DashboardCard = ({
           </p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
