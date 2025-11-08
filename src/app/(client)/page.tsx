@@ -51,7 +51,7 @@ const page = () => {
       <div className="hidden flex-1 bg-custom-radial md:flex items-center justify-center p-6 relative">
         <div className="z-10 text-center h-full flex items-center">
           <Image
-            src={images.customerCarePNG}
+            src={images.customerPng}
             alt="Auth illustrations"
             width={400}
             height={350}
