@@ -182,7 +182,7 @@ const ComplaintRegisteration = () => {
                           setComplaintType(value)
                         }
                       >
-                        <SelectTrigger className="w-full border-gray-400 bg-white mt-1">
+                        <SelectTrigger className="w-full border-gray-400 custom-input bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
                           <SelectValue placeholder="please select complaint type" />
                         </SelectTrigger>
                         <SelectContent>
@@ -260,17 +260,17 @@ const ComplaintRegisteration = () => {
             className="relative z-0 w-full h-full bg-cover bg-center mx-auto"
           >
             <p
-              className="z-20 absolute left-0 bottom-10 uppercase
+              className="z-20 absolute left-0 top-10 uppercase
                right-0 text-center text-xl font-mona-sans font-bold mt-2 mb-3 tracking-wider
                text-blue-900 text-shadow-blue-900"
             >
               Complaint Registeration Form
             </p>
             <Image
-              src={images.customerCarePNG}
+              src={images.ComplaintRegisteration}
               alt="shopping-cart"
               fill
-              className="object-cover w-full overflow-hidden"
+              className="object-fit w-full overflow-hidden"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
             />
           </motion.div>
