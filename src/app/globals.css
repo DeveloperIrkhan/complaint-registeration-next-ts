@@ -158,7 +158,9 @@
     @apply border border-black;
   }
   .custom-input {
-    @apply border px-1.5 py-1 text-[15px] rounded-lg border-gray-400 w-full focus:outline-none focus:border-main-brand-color;
+    @apply border px-1.5 py-1 text-[15px] rounded-lg 
+    border-gray-400 dark:border-white w-full focus:outline-none
+     focus:border-main-brand-color;
   }
   .bg-custom-linear {
     @apply bg-linear-30 to-red-100 from-orange-200;
@@ -166,5 +168,4 @@
   .bg-custom-radial {
     @apply bg-radial from-5% from-amber-300 to-red-700;
   }
-
 }

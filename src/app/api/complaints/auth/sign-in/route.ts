@@ -78,7 +78,7 @@ export const POST = async (req: NextRequest) => {
       secure: process.env.NODE_ENV === "production",
       path: "/",
       sameSite: "strict",
-      maxAge: 60 * 60 * 3
+      maxAge: 60 * 60 * 7
     });
     response.cookies.set("accessToken", accessToken, {
       httpOnly: true,

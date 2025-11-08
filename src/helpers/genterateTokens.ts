@@ -7,7 +7,7 @@ const generateAsscesstoken = (id: string, role: string) => {
     throw new Error("ACCESS_TOKEN_SECRET is not defined.");
 
   const option: SignOptions = {
-    expiresIn: "3h"
+    expiresIn: "7h"
   };
   return jwt.sign({ id, role }, accessTokenSecret, option);
 };

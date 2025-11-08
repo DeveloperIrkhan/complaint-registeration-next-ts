@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import StoreProvider from "@/store/StoreProvider";
 import React from "react";
+import { Lightbulb, LightbulbIcon } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,11 +14,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body>
         <StoreProvider>
-          <div className="flex w-full flex-col min-h-screen">
+          <div className="relative flex w-full flex-col min-h-screen">
             <main className="flex-1">{children}</main>
           </div>
         </StoreProvider>
