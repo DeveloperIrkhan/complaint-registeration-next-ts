@@ -14,6 +14,7 @@
   --danger: #ef4444;
   --danger-hover: #dc2626;
   --radius: 0.625rem;
+  --background: oklch(1 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -46,55 +47,24 @@
   --red-basic: #ac2c0c;
   --blue-basic: #39a2ee;
   --dark-basic: #393e41;
+
+  --primaryColor: oklch(61.519% 0.24507 19.847);
+  --primaryHoverColor: oklch(52.261% 0.20777 19.305 / 0.905);
 }
 
 @theme inline {
   --font-Jost: "Jost", sans-serif;
   --font-mona-sans: "Mona Sans", sans-serif;
-  --color-primary-color: #2563eb;
-  --color-secondry-color: #10b981;
-  --color-accent-color: #1d4ed8;
-  --color-forth-color: #2c0e37;
-  --color-bg-color: #f9fafb;
-  --color-text-color: #111827;
-  --color-main-brand-color: #bd001c;
-  --color-accent-brand-color: #14b8a6;
-  --color-bg-Neutral-color: #f9fafb;
-  --color-hover-effect: #1d4ed8;
-
+  --color-theme-color: var(--primaryColor);
+  --color-theme-hover-color: var(--primaryHoverColor);
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --color-danger: var(--danger);
-  --color-danger-hover: var(--danger-hover);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
+  --color-Primary-Red: "#E50914";
+  --color-Hover-Accent-Red: "#FF3B30";
+  --color-hover-Subtle-Grey: "#2B2B2B";
+  --color-Background-Black: "#0D0D0D";
+  --text-white: "#f5f5f5";
+  --text-dark: oklch(16.073% 0.00266 325.38 / 0.905);
+  --text-Muted: "#A0A0A0";
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -140,7 +110,7 @@
     @apply border-border outline-ring/50;
   } */
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background;
   }
 }
 
@@ -160,7 +130,7 @@
   .custom-input {
     @apply border px-1.5 py-1 text-[15px] rounded-lg 
     border-gray-400 dark:border-white w-full focus:outline-none
-     focus:border-main-brand-color;
+     focus:border-theme-color;
   }
   .bg-custom-linear {
     @apply bg-linear-30 to-red-100 from-orange-200;
@@ -169,3 +139,35 @@
     @apply bg-radial from-5% from-amber-300 to-red-700;
   }
 }
+
+/* 
+
+:root {
+  --color-primary: #E50914;     
+  --color-accent: #FF3B30;      
+  --color-background: #0D0D0D;  
+  --color-card: #1A1A1A;        
+  --color-muted: #A0A0A0;       
+  --color-text: #F5F5F5;        
+
+  --color-success: #22C55E;
+  --color-warning: #FACC15;
+  --color-error: #DC2626;
+
+  --shadow-red-glow: 0 0 10px var(--color-accent);
+}
+
+.dark {
+  --color-background: #000000;
+  --color-card: #1A1A1A;
+  --color-text: #FFFFFF;
+  --color-muted: #888888;
+}
+
+.bg-primary { background-color: var(--color-primary); }
+.hover\:bg-accent:hover { background-color: var(--color-accent); }
+.bg-card { background-color: var(--color-card); }
+.bg-background { background-color: var(--color-background); }
+.text-text { color: var(--color-text); }
+.text-muted { color: var(--color-muted); }
+.shadow-red-glow { box-shadow: var(--shadow-red-glow); } */
