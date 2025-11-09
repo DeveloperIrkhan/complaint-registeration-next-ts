@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import StoreProvider from "@/store/StoreProvider";
 import React from "react";
-import { Lightbulb, LightbulbIcon } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
