@@ -16,5 +16,9 @@ export const images = {
   trackingComplaint: "/assets/TrackingComplaint.png",
   Spinner: "/assets/Spinner.svg",
   ComplaintRegisteration: "/assets/ComplaintRegisteration.png",
-  ComplaintPage: "/assets/complaintpage.png"
+  ComplaintPage: "/assets/complaintpage.png",
+  MainPicture: "/assets/MainPicture.png",
+  ComplaintPicture: "/assets/ComplaintPicture.png",
+  ComplaintTracking:"/assets/ComplaintTracking.png",
+  NotFound:"/assets/NotFound.webp"
 };

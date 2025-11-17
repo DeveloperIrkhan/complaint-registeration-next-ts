@@ -251,28 +251,32 @@ const ComplaintRegisteration = () => {
         </div>
         <div className={`md:w-1/2 w-full md:block hidden overflow-hidden`}>
           <motion.div
-            // animate={{ scale: [1, 1.1, 1], rotate: [0, 1, -2, 0] }}
-            // transition={{
-            //   repeat: Infinity,
-            //   duration: 20,
-            //   ease: "easeInOut"
-            // }}
+            animate={{ scale: [1, 1.1, 1], rotate: [0, 1, -2, 0] }}
+            transition={{
+              repeat: Infinity,
+              duration: 20,
+              ease: "easeInOut"
+            }}
             className="relative z-0 w-full h-full bg-cover bg-center mx-auto"
           >
             <p
               className="z-20 absolute left-0 top-10 uppercase
                right-0 text-center text-xl font-mona-sans font-bold mt-2 mb-3 tracking-wider
-               text-blue-900 text-shadow-blue-900"
+               text-white text-shadow-black text-shadow-md"
             >
               Complaint Registeration Form
             </p>
+            <div className="flex justify-center items-center bg-custom-radial">
+
             <Image
-              src={images.ComplaintRegisteration}
+              src={images.ComplaintPicture}
               alt="shopping-cart"
-              fill
-              className="object-fit w-full overflow-hidden"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-            />
+              width={400}
+              height={600}
+              className="mx-auto h-9/12 shadow-2xl rounded-xl"
+              // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+              />
+              </div>
           </motion.div>
         </div>
       </div>

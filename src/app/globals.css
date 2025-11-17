@@ -166,6 +166,6 @@
     @apply bg-linear-30 to-red-100 from-orange-200;
   }
   .bg-custom-radial {
-    @apply bg-radial from-5% from-amber-300 to-red-700;
+    @apply bg-radial from-5% from-red-600 to-red-950;
   }
 }
