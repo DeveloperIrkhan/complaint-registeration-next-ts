@@ -1,7 +1,7 @@
 export const images = {
   auth: "/assets/auth.png",
   login: "/assets/login.png",
-  icon: "/assets/icon.png",
+  icon: "/assets/Icon.png",
   Logo: "/assets/Logo.png",
   addnewicon: "/assets/addnewicon.png",
   complainticon: "/assets/complainticon.png",
