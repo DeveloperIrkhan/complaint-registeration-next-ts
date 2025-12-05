@@ -91,7 +91,7 @@ const UserListComponent = () => {
 
                   <TableCell className="flex justify-center items-center">
                     <CustomToggleButton
-                      isActive={item.isActive}
+                      isActive={item.isActive || false}
                       setIsActive={(status) =>
                         handleToggle(item._id as string, status)
                       }

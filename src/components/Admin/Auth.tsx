@@ -6,7 +6,7 @@ import Image from "next/image";
 import { images } from "@/app/Images";
 import {
   useLoginUserMutation,
-  useRegisterUserMutation
+  useRegisterUserMutation,
 } from "@/features/UserAPI";
 import Spinner from "../Spinner/Spinner";
 import { toast } from "react-toastify";
@@ -19,6 +19,7 @@ const Auth = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isActive, setisActive] = useState(false);
   const [phoneNo, setPhoneNo] = useState("");
   const [currentState, setCurrentState] = useState("login");
   const [againPassword, setAgainPassword] = useState("");
@@ -55,7 +56,7 @@ const Auth = () => {
           setWithExpiry<IUser>({
             key: "userLogin",
             value: response?.loggedInUser,
-            timeInHours: 12
+            timeInHours: 12,
           });
 
           const redirectUrl =
@@ -70,7 +71,7 @@ const Auth = () => {
         }
       } else {
         const name = `${firstName}+${lastName}`;
-        const newUser = { name, email, phoneNo, password };
+        const newUser = { name, email, phoneNo, password, isActive };
         var response = await signupUser(newUser).unwrap();
         if (response?.success === true) {
           toast.success(response?.message);
@@ -89,7 +90,7 @@ const Auth = () => {
         toast.error(err.data.message, { autoClose: 2000 });
       } else {
         toast.error("Something went wrong. Please try again.", {
-          autoClose: 2000
+          autoClose: 2000,
         });
       }
     } finally {
@@ -99,8 +100,10 @@ const Auth = () => {
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {loading && <Spinner />}
-      <div className="flex-1 flex items-center justify-center 
-      bg-custom-linear md:bg-white px-6 md:px-12">
+      <div
+        className="flex-1 flex items-center justify-center 
+      bg-custom-linear md:bg-white px-6 md:px-12"
+      >
         <div className="w-full max-w-sm">
           <SectionHeading
             title={`Admin ${currentState === "signup" ? "Signup" : "Login"}`}

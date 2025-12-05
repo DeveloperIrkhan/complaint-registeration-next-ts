@@ -64,6 +64,7 @@ export interface IUserModel {
   password: string;
   phone?: string;
   role: userRole;
+  isActive?: boolean;
   forgotPasswordToken?: string;
   forgotPasswordTokenExpiry?: string;
   verifyToken?: string;
@@ -76,7 +77,7 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
-  isActive: boolean;
+  isActive?: boolean;
   phone?: string;
   role?: userRole;
 }
