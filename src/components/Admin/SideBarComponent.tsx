@@ -49,31 +49,19 @@ const SideBarComponent = () => {
               >
                 <Icon iconName={images.complainticon} /> Show All Complaints
               </Link>
-              <Link
-                href="/dashboard/edit-product"
-                className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
-              >
-                <Icon iconName={images.workingicon} /> Edit Coompaint
-              </Link>
             </CollapsibleButton>
             <CollapsibleButton title="Manage Team">
               <Link
-                href="/products/add-product"
+                href="/dashboard/users/list-all-users"
                 className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
               >
-                <Icon iconName={images.addnewicon} /> Add New Member
+                <Icon iconName={images.addnewicon} /> List All Members
               </Link>
               <Link
-                href="/products/edit-product"
+                href="/dashboard/users/edit-users"
                 className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
               >
                 <Icon iconName={images.complainticon} /> Edit Member
-              </Link>
-              <Link
-                href="/products"
-                className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
-              >
-                <Icon iconName={images.mangetemicon} /> Show Members
               </Link>
             </CollapsibleButton>
           </div>
@@ -104,11 +92,13 @@ const SideBarComponent = () => {
               width={75}
               alt="logo"
             />
-            <h2 className="hidden md:flex text-xl 
+            <h2
+              className="hidden md:flex text-xl 
              text-main-brand-color
              my-2 md:my-3 font-bold font-mona-sans 
              tracking-wider text-red capitalize text-[15px] md:text-2xl
-             ">
+             "
+            >
               PRCS
             </h2>
           </div>
@@ -125,31 +115,19 @@ const SideBarComponent = () => {
             >
               <Icon iconName={images.complainticon} /> Show All Complaints
             </Link>
-            <Link
-              href="/dashboard/edit-complaints"
-              className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
-            >
-              <Icon iconName={images.workingicon} /> Edit Coompaint
-            </Link>
           </CollapsibleButton>
           <CollapsibleButton title="Manage Team">
             <Link
-              href="/products/add-product"
+              href="/dashboard/users/list-all-users"
               className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
             >
-              <Icon iconName={images.addnewicon} /> Add New Member
+              <Icon iconName={images.addnewicon} /> List All Members
             </Link>
             <Link
-              href="/products/edit-product"
+              href="/dashboard/users/edit-users"
               className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
             >
               <Icon iconName={images.complainticon} /> Edit Member
-            </Link>
-            <Link
-              href="/products"
-              className="flex items-center h-16 gap-3 px-4 py-2 hover:bg-red-300"
-            >
-              <Icon iconName={images.mangetemicon} /> Show Members
             </Link>
           </CollapsibleButton>
         </div>

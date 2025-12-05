@@ -9,25 +9,26 @@ const UserSchema = new mongoose.Schema(
       type: String,
       unique: true,
       trim: true,
-      required: [true, "Email must required"]
+      required: [true, "Email must required"],
     },
     password: {
       type: String,
       required: [true, "password is required"],
-      minlength: [8, "password must be at least 8 characters long"]
+      minlength: [8, "password must be at least 8 characters long"],
     },
     phone: {
-      type: String
+      type: String,
     },
     forgotPasswordToken: { type: String },
     forgotPasswordTokenExpiry: { type: Date },
     verifyToken: { type: String },
     refreshToken: { type: String },
+    isActive: { type: Boolean, default: false },
     role: {
       type: String,
       enum: Object.values(userRole),
-      default: userRole.isTechnician
-    }
+      default: userRole.isTechnician,
+    },
   },
   { timestamps: true }
 );

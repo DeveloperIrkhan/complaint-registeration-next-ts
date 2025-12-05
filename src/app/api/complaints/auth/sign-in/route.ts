@@ -13,10 +13,10 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json(
         {
           success: false,
-          message: "please enter both email and password"
+          message: "please enter both email and password",
         },
         {
-          status: 400
+          status: 400,
         }
       );
     }
@@ -26,10 +26,10 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json(
         {
           success: false,
-          message: "user not found"
+          message: "user not found",
         },
         {
-          status: 401
+          status: 401,
         }
       );
     }
@@ -42,10 +42,21 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json(
         {
           success: false,
-          message: "password doesn't matched"
+          message: "password doesn't matched",
         },
         {
-          status: 401
+          status: 401,
+        }
+      );
+    }
+    if (existingUser.isActive === false) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "access denied, your account is not active yet",
+        },
+        {
+          status: 401,
         }
       );
     }
@@ -66,7 +77,7 @@ export const POST = async (req: NextRequest) => {
       updatedAt: 0,
       __v: 0,
       password: 0,
-      refreshToken: 0
+      refreshToken: 0,
     });
     const response = NextResponse.json(
       { success: true, message: "login successfully", loggedInUser },
@@ -78,21 +89,21 @@ export const POST = async (req: NextRequest) => {
       secure: process.env.NODE_ENV === "production",
       path: "/",
       sameSite: "strict",
-      maxAge: 60 * 60 * 7
+      maxAge: 60 * 60 * 7,
     });
     response.cookies.set("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       path: "/",
       sameSite: "strict",
-      maxAge: 60 * 60 * 24 * 3
+      maxAge: 60 * 60 * 24 * 3,
     });
     response.cookies.set("loggedInUser", loggedInUser, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       path: "/",
       sameSite: "strict",
-      maxAge: 60 * 60 * 24 * 3 // 1 hour
+      maxAge: 60 * 60 * 24 * 3, // 1 hour
     });
 
     return response;
@@ -101,7 +112,7 @@ export const POST = async (req: NextRequest) => {
       status: 500,
       success: false,
       message: "error while posting data",
-      error
+      error,
     });
   }
 };

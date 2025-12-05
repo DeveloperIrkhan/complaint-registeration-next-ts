@@ -24,24 +24,20 @@ export interface IComplaintModels {
   updatedAt?: Date;
 }
 
-
-
 export interface IMessage {
-  message: string,
-  sender: SenderType,
-  isRead: boolean
+  message: string;
+  sender: SenderType;
+  isRead: boolean;
   updatedAt?: Date;
-  createdAt?: Date
+  createdAt?: Date;
 }
 
-
 export interface IMessages {
-  complaintId: string,
-  complaintMessage?: IMessage[]
+  complaintId: string;
+  complaintMessage?: IMessage[];
   updatedAt: Date;
   createdAt: Date;
 }
-
 
 export interface IComplaint {
   _id: string;
@@ -51,7 +47,7 @@ export interface IComplaint {
   designation?: string;
   department: string;
   complaint: string;
-  complaintType: ComplaintType
+  complaintType: ComplaintType;
   assignedTo?: string | null;
   priority?: complaintPriority;
   complaintStatus?: complaintStatus;
@@ -80,6 +76,7 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
+  isActive: boolean;
   phone?: string;
   role?: userRole;
 }
