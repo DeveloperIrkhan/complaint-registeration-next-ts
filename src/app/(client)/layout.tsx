@@ -8,7 +8,6 @@ export const metadata: Metadata = {
   title: "Complaint Registeration System",
   description: "this is webapp used for Ticket managment system.",
   icons: {
-    icon: `${images.Logo}`
   }
 };
 

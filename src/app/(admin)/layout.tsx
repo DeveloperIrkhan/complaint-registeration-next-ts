@@ -9,7 +9,6 @@ export const metadata: Metadata = {
   title: "Admin Panel | Complaint Registeration System",
   description: "this is admin panel used for Complaint Registeration System",
   icons: {
-    icon: `${images.Logo}`
   }
 };
 
